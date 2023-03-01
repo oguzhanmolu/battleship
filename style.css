@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@900&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Big Shoulders Stencil Text', cursive;
+}
+main {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  /* *** */
+  align-items: start;
+}
+
+/* Title group */
+#title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+#title-text {
+  font-size: 6.5rem;
+}
+.title-img {
+  height: 100px;
+}
+
+/* Game board */
+#modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 4rem;
+  text-align: center;
+}
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+.grid {
+  margin: 1px;
+  border: 2px solid black;
+  cursor: pointer;
+  font-size: 2.5rem;
+}

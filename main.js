@@ -1,1 +1,1 @@
-console.log("test");
+(()=>{"use strict";class t{static createGameBoard(){const t=document.getElementById("modal"),e=document.createElement("div");e.classList.add("game-board");for(let t=0;t<100;t++){const a=document.createElement("div");a.classList.add("grid"),a.textContent=t,e.appendChild(a)}t.appendChild(e)}static positionBattleships(){document.querySelectorAll(".grid").forEach((t=>t.addEventListener("click",(()=>{console.log(t.textContent)}))))}}t.createGameBoard(),t.positionBattleships()})();
