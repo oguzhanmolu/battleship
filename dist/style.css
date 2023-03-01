@@ -10,7 +10,6 @@ main {
   width: 100vw;
   display: flex;
   justify-content: center;
-  /* *** */
   align-items: start;
 }
 
@@ -21,18 +20,18 @@ main {
   gap: 10px;
 }
 #title-text {
-  font-size: 6.5rem;
+  font-size: 6rem;
 }
 .title-img {
-  height: 100px;
+  height: 90px;
 }
 
-/* Game board */
+/* Modal */
 #modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -43,6 +42,9 @@ main {
 .game-board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
+}
+#modal-text {
+  font-size: 2.5rem;
 }
 .grid {
   margin: 1px;

@@ -1,4 +1,4 @@
-import Gameboard from './modules/gameboard';
+import Modal from './modules/modal';
 
-Gameboard.createGameBoard();
-Gameboard.positionBattleships();
+Modal.createModalGameBoard();
+Modal.hoverEffects();
