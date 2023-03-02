@@ -17,7 +17,7 @@ export default class Modal {
 
     gridAll.forEach((singleGrid) => {
       singleGrid.addEventListener('mouseover', () => {
-        singleGrid.style.backgroundColor = 'black';
+        singleGrid.style.backgroundColor = 'rgba(0,0,0,.5)';
       });
 
       singleGrid.addEventListener(

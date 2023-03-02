@@ -25,7 +25,12 @@ main {
 .title-img {
   height: 90px;
 }
-
+.orange-text {
+  color: orange;
+}
+.img {
+  height: 50px;
+}
 /* Modal */
 #modal {
   display: flex;
@@ -39,6 +44,9 @@ main {
   font-size: 4rem;
   text-align: center;
 }
+#modal-placement-text {
+  font-size: 2.5rem;
+}
 
 #modal-group {
   display: flex;
@@ -46,14 +54,14 @@ main {
 }
 #modal-text,
 #modal-fixed-text {
-  font-size: 2.5rem;
+  font-size: 1.75rem;
 }
 #modal-fixed-text {
   position: fixed;
   transform: translate(-175%);
   word-wrap: break-word;
-  width: 25px;
-  line-height: 0.9;
+  width: 19px;
+  line-height: 1;
 }
 .game-board {
   display: grid;
