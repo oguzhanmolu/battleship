@@ -7,6 +7,10 @@
     <title>Battleship Game</title>
     <link rel="stylesheet" href="style.css" />
     <script src="main.js" defer></script>
+    <script
+      src="https://kit.fontawesome.com/e20b7ecd38.js"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <main>
@@ -15,23 +19,37 @@
         <img
           class="title-img"
           src="/dist/img/icon.png"
-          alt="battleship game icon from flaticon"
+          alt="battleship game icon"
         />
-        <span id="title-text">BATTLESHIP GAME </span>
-        <img
-          class="title-img"
-          src="/dist/img/icon3.png"
-          alt="battleship game icon from flaticon"
-        />
+        <span id="title-text"
+          >BATTLESHIP
+          <span class="orange-text">GAME</span>
+        </span>
       </div>
     </main>
     <div id="modal">
-      <span id="modal-title">Place your battleships!</span>
+      <span id="modal-title">Preparation Phase!</span>
+      <span id="modal-placement-text"
+        >Place your <span class="orange-text">placeholder</span></span
+      >
+      <!-- <img class="ship-img" src="/dist/img/ship2.png" alt="battleship image" /> -->
       <div id="modal-group">
-        <span id="modal-fixed-text">x-axis</span>
+        <span id="modal-fixed-text"
+          >xıaxis
+          <i class="fa-solid fa-arrow-down"></i>
+        </span>
         <div id="modal-game-board"></div>
       </div>
-      <span id="modal-text">y-axis</span>
+      <span id="modal-text"
+        >y-axis
+        <i class="fa-solid fa-arrow-right"></i>
+      </span>
     </div>
   </body>
 </html>
+
+<!-- battleship.png
+carrier
+cruiser.png
+destroyer.png
+submarine.png -->
