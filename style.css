@@ -54,14 +54,12 @@ main {
 }
 #modal-text,
 #modal-fixed-text {
-  font-size: 1.75rem;
+  font-size: 2rem;
 }
 #modal-fixed-text {
   position: fixed;
-  transform: translate(-175%);
-  word-wrap: break-word;
-  width: 19px;
-  line-height: 1;
+  writing-mode: vertical-lr;
+  transform: translate(-125%);
 }
 .game-board {
   display: grid;
@@ -69,7 +67,7 @@ main {
 }
 .grid {
   margin: 1px;
-  border: 2px solid black;
+  border: 3px solid black;
   cursor: pointer;
   font-size: 2.5rem;
 }
