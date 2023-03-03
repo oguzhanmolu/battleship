@@ -5,12 +5,14 @@
   box-sizing: border-box;
   font-family: 'Big Shoulders Stencil Text', cursive;
 }
+
 main {
   height: 100vh;
   width: 100vw;
   display: flex;
-  justify-content: center;
-  align-items: start;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 
 /* Title group */
@@ -31,12 +33,16 @@ main {
 .img {
   height: 50px;
 }
-/* Modal */
+.fa-github {
+  font-size: 4rem;
+  color: black;
+}
+
+/* MODAL */
 #modal {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
   position: fixed;
   top: 50%;
   left: 50%;
@@ -44,13 +50,14 @@ main {
   font-size: 4rem;
   text-align: center;
 }
+
+/* Modal texts */
+#modal-main-text > * {
+  display: block;
+  margin-bottom: 25px;
+}
 #modal-placement-text {
   font-size: 2.5rem;
-}
-
-#modal-group {
-  display: flex;
-  align-items: center;
 }
 #modal-text,
 #modal-fixed-text {
@@ -59,7 +66,20 @@ main {
 #modal-fixed-text {
   position: fixed;
   writing-mode: vertical-lr;
-  transform: translate(-125%);
+  transform: translate(-100%);
+}
+.ship-img {
+  height: 100px;
+}
+
+/* Modal gameboard */
+#modal-gameboard-main {
+  display: flex;
+  flex-direction: column;
+}
+#modal-gameboard-text-group {
+  display: flex;
+  align-items: center;
 }
 .game-board {
   display: grid;
@@ -69,5 +89,5 @@ main {
   margin: 1px;
   border: 3px solid black;
   cursor: pointer;
-  font-size: 2.5rem;
+  font-size: 2rem;
 }
