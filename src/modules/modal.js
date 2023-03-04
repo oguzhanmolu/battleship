@@ -19,8 +19,10 @@ export default class Modal {
     const shipFurthestLocation = currentGrid + shipLength - 1;
     return (
       (currentGrid < 10 &&
-        currentGrid.length === shipFurthestLocation.toString().length) ||
-      currentGrid.split('')[0] === shipFurthestLocation.toString().split('')[0]
+        currentGrid.toString().length ===
+          shipFurthestLocation.toString().length) ||
+      currentGrid.toString().split('')[0] ===
+        shipFurthestLocation.toString().split('')[0]
     );
   }
 
@@ -37,7 +39,18 @@ export default class Modal {
       singleGrid.addEventListener('mouseover', () => {
         const hoveredGridLength = Number(singleGrid.textContent);
 
-        // Loop ship length and add hover effect for each grid
+        // If ship is not deployable to the current grid, return and
+        // don't show the illegitimate hover effect.
+        if (
+          (rotation === 'horizontal' &&
+            !this.isHorizontallyDeployable(hoveredGridLength, shipLength)) ||
+          (rotation === 'vertical' &&
+            !this.isVerticallyDeployable(hoveredGridLength, shipLength - 1))
+        )
+          return;
+
+        // If, ship is deployable to the current grids,
+        // Then loop ship length and add hover effects on grids.
         for (let i = 1; i < shipLength; i++) {
           // Set next grid's length according to rotation
           let nextGrid;
