@@ -1,4 +1,4 @@
 import Modal from './modules/modal';
 
 Modal.createModalGameBoard();
-Modal.hoverEffects();
+Modal.hoverEffects(5, 'horizontal');

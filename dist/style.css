@@ -9,8 +9,6 @@
 main {
   height: 100vh;
   width: 100vw;
-  display: flex;
-  flex-direction: column;
   justify-content: space-between;
   align-items: center;
 }
@@ -40,8 +38,6 @@ main {
 
 /* MODAL */
 #modal {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   position: fixed;
   top: 50%;
@@ -54,7 +50,6 @@ main {
 /* Modal texts */
 #modal-main-text > * {
   display: block;
-  margin-bottom: 25px;
 }
 #modal-placement-text {
   font-size: 2.5rem;
@@ -73,9 +68,14 @@ main {
 }
 
 /* Modal gameboard */
+main,
+#modal,
 #modal-gameboard-main {
   display: flex;
   flex-direction: column;
+}
+#modal-gameboard-main {
+  margin-top: 50px;
 }
 #modal-gameboard-text-group {
   display: flex;
