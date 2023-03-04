@@ -12,22 +12,28 @@ export default class Modal {
     }
   }
 
+  // Get currently hovered grid and ship length,
+  // returns 'true' if it's ok to deploy the ship horizontally to that grid.
+  static checkHorizontalDeployability(currentGrid, shipLength) {
+    const shipFurthestLocation = Number(currentGrid) + shipLength - 1;
+
+    return (
+      (Number(currentGrid) < 10 &&
+        currentGrid.length === shipFurthestLocation.toString().length) ||
+      currentGrid.split('')[0] === shipFurthestLocation.toString().split('')[0]
+    );
+  }
+
   static hoverEffects(shipLength, rotation) {
     const gridAll = document.querySelectorAll('.grid');
     const modalGameBoard = document.getElementById('modal-game-board');
 
     gridAll.forEach((singleGrid) => {
       singleGrid.addEventListener('mouseover', () => {
+        console.log(
+          this.checkHorizontalDeployability(singleGrid.textContent, shipLength)
+        );
         const hoveredGridLength = Number(singleGrid.textContent);
-        const shipMaxLength = hoveredGridLength + shipLength - 1;
-        const hoveredGridString = singleGrid.textContent;
-        const shipMaxLengthString = shipMaxLength.toString();
-        if (
-          hoveredGridString.length !== shipMaxLengthString.length ||
-          (hoveredGridLength >= 10 &&
-            hoveredGridString.split('')[0] !== shipMaxLengthString.split('')[0])
-        )
-          return;
 
         // Loop ship length and add hover effect for each grid
         for (let i = 1; i < shipLength; i++) {
