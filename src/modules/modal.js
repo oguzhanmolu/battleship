@@ -15,7 +15,6 @@ export default class Modal {
   // HIGHLIGHT ON HOVER
   static highlightGridOnHover(shipLength, rotation) {
     const gridAll = document.querySelectorAll('.grid');
-    const modalGameBoard = document.getElementById('modal-game-board');
 
     // Checks current grid length and ship length&rotation,
     // And returns 'true' if deployment is legit.
@@ -38,6 +37,8 @@ export default class Modal {
     // Set next grid's length according to rotation.
     // 10 for vertical, 1 for horizontal.
     function setGridColor(currentGrid, shipLength, color) {
+      const modalGameBoard = document.getElementById('modal-game-board');
+
       for (let i = 1; i < shipLength; i++) {
         let nextGrid;
         rotation === 'horizontal'
