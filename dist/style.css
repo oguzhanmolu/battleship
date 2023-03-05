@@ -75,7 +75,7 @@ main,
   flex-direction: column;
 }
 #modal-gameboard-main {
-  margin-top: 50px;
+  margin-top: 25px;
 }
 #modal-gameboard-text-group {
   display: flex;
