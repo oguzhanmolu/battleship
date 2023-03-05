@@ -12,37 +12,33 @@ export default class Modal {
     }
   }
 
-  // Returns 'true' if ship is horizontally deployable
-  // Checks current grid length and deployed ship grid length
-  // and make sure both are in the same row.
-  static isHorizontallyDeployable(currentGrid, shipLength) {
-    const shipFurthestLocation = currentGrid + shipLength - 1;
-    return (
-      (currentGrid < 10 &&
-        currentGrid.toString().length ===
-          shipFurthestLocation.toString().length) ||
-      currentGrid.toString().split('')[0] ===
-        shipFurthestLocation.toString().split('')[0]
-    );
-  }
-
-  // Returns 'true' if ship is vertically deployable.
-  // Simply checks length of grid and ship length.
-  static isVerticallyDeployable = (currentGrid, shipLength) =>
-    currentGrid + shipLength * 10 <= 99;
-
-  // Rotate ship vertically/horizontally in deployment phase.
-  static rotateDeployment() {}
-
+  // HIGHLIGHT ON HOVER
   static highlightGridOnHover(shipLength, rotation) {
     const gridAll = document.querySelectorAll('.grid');
     const modalGameBoard = document.getElementById('modal-game-board');
 
+    // Checks current grid length and ship length&rotation,
+    // And returns 'true' if deployment is legit.
+    // This look horrible, gonna edit it later.
+    function isShipDeployable(currentGrid, shipLength) {
+      const shipFurthestLocation = currentGrid + shipLength - 1;
+      return (
+        (rotation === 'vertical' && currentGrid + shipLength * 10 - 10 <= 99) ||
+        (rotation === 'horizontal' &&
+          currentGrid < 10 &&
+          currentGrid.toString().length ===
+            shipFurthestLocation.toString().length) ||
+        (rotation === 'horizontal' &&
+          currentGrid.toString().split('')[0] ===
+            shipFurthestLocation.toString().split('')[0])
+      );
+    }
+
+    // Loop ship length and add hover effects on grids.
+    // Set next grid's length according to rotation.
+    // 10 for vertical, 1 for horizontal.
     function setGridColor(currentGrid, shipLength, color) {
-      // Loop ship length and add hover effects on grids.
       for (let i = 1; i < shipLength; i++) {
-        // Set next grid's length according to rotation.
-        // 10 for vertical, 1 for horizontal.
         let nextGrid;
         rotation === 'horizontal'
           ? (nextGrid = currentGrid + i)
@@ -53,29 +49,22 @@ export default class Modal {
       }
     }
 
+    // Highlight current grid on 'mouseover'
     gridAll.forEach((singleGrid) => {
       singleGrid.addEventListener('mouseover', () => {
         const currentGridLength = Number(singleGrid.textContent);
 
-        // If ship is not deployable to the current grid, return and
-        // don't show the illegal hover effect.
-        if (
-          (rotation === 'horizontal' &&
-            !this.isHorizontallyDeployable(currentGridLength, shipLength)) ||
-          (rotation === 'vertical' &&
-            !this.isVerticallyDeployable(currentGridLength, shipLength - 1))
-        )
-          return;
-
-        // If, ship is deployable to the current grid,
-        // then highlight it.
+        // If ship is deployable to the current grid, highlight it.
+        if (!isShipDeployable(currentGridLength, shipLength)) return;
         setGridColor(currentGridLength, shipLength, 'rgba(0,0,0,.5)');
       });
 
-      // Cancel highlight on hovered grids.
+      // Cancel highlight when 'mouseout'
       singleGrid.addEventListener('mouseout', () => {
         const currentGridLength = Number(singleGrid.textContent);
-        setGridColor(currentGridLength, shipLength, 'white');
+        // Check if ship deployment is legit, before trying to cancel the hover effect.
+        if (isShipDeployable(currentGridLength, shipLength))
+          setGridColor(currentGridLength, shipLength, 'white');
       });
     });
   }
