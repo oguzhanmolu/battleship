@@ -1,4 +1,4 @@
-import ModalGameboard from './modules/deploymentPhase';
+import ModalGameBoard from './modules/deploymentPhase';
 
-ModalGameboard.createModalGameBoard();
-ModalGameboard.highlightGridOnHover(2, 'vertical');
+ModalGameBoard.createModalGameBoard();
+ModalGameBoard.highlightGridOnHover(2, 'vertical');

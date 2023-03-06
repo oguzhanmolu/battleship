@@ -1,6 +1,6 @@
 import GameBoard from './gameboard';
 
-export default class ModalGameboard {
+export default class ModalGameBoard {
   constructor() {}
   // Create 10x10 game board
   static createModalGameBoard() {
@@ -13,7 +13,7 @@ export default class ModalGameboard {
   // Switch ship rotation on 'r' keydown
   static switchShipRotation() {
     document.addEventListener('keydown', (e) => {
-      // Switch function here
+      // if (e.key==='r')  Switch function here
     });
   }
 
