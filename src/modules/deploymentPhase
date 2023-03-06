@@ -9,7 +9,6 @@ export default class ModalGameBoard {
   static createModalGameBoard() {
     const modalGameBoard = document.getElementById('modal-game-board');
     modalGameBoard.classList.add('game-board');
-
     GameBoard.createGameBoard(modalGameBoard);
   }
 
@@ -39,14 +38,19 @@ export default class ModalGameBoard {
       rotation === 'horizontal'
         ? (nextGrid = currentGrid + i)
         : (nextGrid = currentGrid + i * 10);
-
-      modalGameBoard.childNodes[currentGrid].style.backgroundColor = color;
-      modalGameBoard.childNodes[nextGrid].style.backgroundColor = color;
+      if (
+        modalGameBoard.childNodes[currentGrid].style.backgroundColor !==
+          'orange' &&
+        modalGameBoard.childNodes[nextGrid].style.backgroundColor !== 'orange'
+      ) {
+        modalGameBoard.childNodes[currentGrid].style.backgroundColor = color;
+        modalGameBoard.childNodes[nextGrid].style.backgroundColor = color;
+      }
     }
   }
 
   // Highlight on hover
-  static highlightGridOnHover(shipLength, rotation) {
+  static gridHoverActions(shipLength, rotation) {
     const gridAll = document.querySelectorAll('.grid');
 
     // Highlight current grid on 'mouseover'
@@ -72,18 +76,15 @@ export default class ModalGameBoard {
           this.setGridColor(currentGridLength, shipLength, rotation, 'white');
       });
     });
-  }
 
-  // DEPLOY SHIP ON CLICKED GRID
-  static deployShip() {
-    // const gridAll = document.querySelectorAll('.grid');
-    // gridAll.forEach((singleGrid) =>
-    //   singleGrid.addEventListener('click', () => {
-    //     const currentGridLength = Number(singleGrid.textContent);
-    //     // If ship is deployable to the current grid, highlight it.
-    //     if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
-    //       console.log('test');
-    //   })
-    // );
+    // Deploy ships on click
+    gridAll.forEach((singleGrid) =>
+      singleGrid.addEventListener('click', () => {
+        const currentGridLength = Number(singleGrid.textContent);
+        // If ship is deployable to the current grid, highlight it.
+        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
+          this.setGridColor(currentGridLength, shipLength, rotation, 'orange');
+      })
+    );
   }
 }
