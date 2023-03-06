@@ -4,6 +4,7 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Big Shoulders Stencil Text', cursive;
+  border-style: none;
 }
 
 main {
@@ -43,7 +44,6 @@ main {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 4rem;
   text-align: center;
 }
 
@@ -55,7 +55,9 @@ main {
 }
 
 #modal-text,
-#modal-fixed-text {
+#modal-fixed-text,
+.grid,
+#rotate-button {
   font-size: 2rem;
 }
 #modal-fixed-text {
@@ -81,6 +83,18 @@ main,
   display: flex;
   align-items: center;
 }
+#rotate-button {
+  background-color: black;
+  color: white;
+  width: 200px;
+  padding: 10px;
+  margin: 25px auto 0 auto;
+  transition: ease-in-out 0.25s;
+  cursor: pointer;
+}
+#rotate-button:hover {
+  scale: 1.1;
+}
 .game-board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
@@ -89,5 +103,4 @@ main,
   margin: 1px;
   border: 3px solid black;
   cursor: pointer;
-  font-size: 2rem;
 }
