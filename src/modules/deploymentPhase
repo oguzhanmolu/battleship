@@ -1,16 +1,20 @@
-export default class Modal {
+import GameBoard from './gameboard';
+
+export default class ModalGameboard {
   constructor() {}
   // Create 10x10 game board
   static createModalGameBoard() {
     const modalGameBoard = document.getElementById('modal-game-board');
     modalGameBoard.classList.add('game-board');
 
-    for (let i = 0; i < 100; i++) {
-      const grid = document.createElement('div');
-      grid.classList.add('grid');
-      grid.textContent = i;
-      modalGameBoard.appendChild(grid);
-    }
+    GameBoard.createGameBoard(modalGameBoard);
+  }
+
+  // Switch ship rotation on 'r' keydown
+  static switchShipRotation() {
+    document.addEventListener('keydown', (e) => {
+      // Switch function here
+    });
   }
 
   // Checks current grid length and ship length&rotation,
