@@ -48,12 +48,12 @@ main {
 }
 
 /* Modal texts */
-#modal-main-text > * {
+#modal-main-text > *,
+#modal-ship-info > * {
   display: block;
+  margin: 10px auto 0 auto;
 }
-#modal-placement-text {
-  font-size: 2.5rem;
-}
+
 #modal-text,
 #modal-fixed-text {
   font-size: 2rem;
