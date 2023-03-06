@@ -12,18 +12,15 @@ export default class ModalGameBoard {
     GameBoard.createGameBoard(modalGameBoard);
   }
 
-  static setShipRotation() {
-    this.rotation = 'vertical';
+  static deployShip(shipLength, rotation) {
+    //
   }
-
-  // 1 set hover length and rotation etc, then call create ship f+--
-  // 2 change ship text img
 
   // Switch ship rotation on 'r' keydown
   static switchShipRotation() {
     const rotateButton = document.getElementById('rotate-button');
     rotateButton.addEventListener('click', () => {
-      console.log('test');
+      // Rotate
     });
   }
 
@@ -38,19 +35,20 @@ export default class ModalGameBoard {
       rotation === 'horizontal'
         ? (nextGrid = currentGrid + i)
         : (nextGrid = currentGrid + i * 10);
+
       if (
-        modalGameBoard.childNodes[currentGrid].style.backgroundColor !==
+        modalGameBoard.childNodes[currentGrid].style.backgroundColor ===
           'orange' &&
-        modalGameBoard.childNodes[nextGrid].style.backgroundColor !== 'orange'
-      ) {
-        modalGameBoard.childNodes[currentGrid].style.backgroundColor = color;
-        modalGameBoard.childNodes[nextGrid].style.backgroundColor = color;
-      }
+        modalGameBoard.childNodes[nextGrid].style.backgroundColor === 'orange'
+      )
+        return;
+      modalGameBoard.childNodes[currentGrid].style.backgroundColor = color;
+      modalGameBoard.childNodes[nextGrid].style.backgroundColor = color;
     }
   }
 
   // Highlight on hover
-  static gridHoverActions(shipLength, rotation) {
+  static gridMouseActions(shipLength, rotation) {
     const gridAll = document.querySelectorAll('.grid');
 
     // Highlight current grid on 'mouseover'
@@ -59,7 +57,14 @@ export default class ModalGameBoard {
         const currentGridLength = Number(singleGrid.textContent);
 
         // If ship is deployable to the current grid, highlight it.
-        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
+        if (
+          GameBoard.checkShipExistence(
+            currentGridLength,
+            shipLength,
+            rotation
+          ) &&
+          GameBoard.isShipDeployable(currentGridLength, shipLength, rotation)
+        )
           this.setGridColor(
             currentGridLength,
             shipLength,
@@ -67,22 +72,40 @@ export default class ModalGameBoard {
             'rgba(0,0,0,.5)'
           );
       });
+    });
 
-      // Cancel highlight when 'mouseout'
+    // Cancel highlight when 'mouseout'
+    gridAll.forEach((singleGrid) =>
       singleGrid.addEventListener('mouseout', () => {
         const currentGridLength = Number(singleGrid.textContent);
         // Check if ship deployment is legit, before trying to cancel the hover effect.
-        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
+        if (
+          GameBoard.checkShipExistence(
+            currentGridLength,
+            shipLength,
+            rotation
+          ) &&
+          GameBoard.isShipDeployable(currentGridLength, shipLength, rotation)
+        )
           this.setGridColor(currentGridLength, shipLength, rotation, 'white');
-      });
-    });
+      })
+    );
 
-    // Deploy ships on click
+    // Deploy ship on click
     gridAll.forEach((singleGrid) =>
       singleGrid.addEventListener('click', () => {
         const currentGridLength = Number(singleGrid.textContent);
+
         // If ship is deployable to the current grid, highlight it.
-        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
+
+        if (
+          GameBoard.checkShipExistence(
+            currentGridLength,
+            shipLength,
+            rotation
+          ) &&
+          GameBoard.isShipDeployable(currentGridLength, shipLength, rotation)
+        )
           this.setGridColor(currentGridLength, shipLength, rotation, 'orange');
       })
     );
