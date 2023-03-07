@@ -1,5 +1,3 @@
-import ModalGameBoard from './deploymentPhase';
-
 export default class GameBoard {
   // Create 10x10 game board and append on parent
   static createGameBoard(parent) {
@@ -16,34 +14,34 @@ export default class GameBoard {
     const modalGameBoard = document.getElementById('modal-game-board');
     const shipFurthestLocation = currentGrid + shipLength - 1;
 
-    // Returns false if any grids are orange (meaning there is a ship there)
     let indexArr = [currentGrid];
     for (let i = 1; i < shipLength; i++) {
       let nextGrid;
       rotation === 'horizontal'
         ? (nextGrid = currentGrid + i)
         : (nextGrid = currentGrid + i * 10);
-      if (nextGrid > 99) return false;
       indexArr.push(nextGrid);
     }
+    // Returns false if any grids are orange (meaning there is a ship there) or,
+    // Grid index is > 99
     if (
       indexArr.some(
         (index) =>
+          index >= 100 ||
           modalGameBoard.childNodes[index].style.backgroundColor === 'orange'
-      )
+      ) ||
+      // If ship is not in the same row horizontally
+      (rotation === 'horizontal' &&
+        currentGrid < 10 &&
+        currentGrid.toString().length !==
+          shipFurthestLocation.toString().length) ||
+      (rotation === 'horizontal' &&
+        currentGrid.toString().split('')[0] !==
+          shipFurthestLocation.toString().split('')[0])
     )
       return false;
 
-    // Returns false if all of the ship parts are not in the same row
-    return (
-      (rotation === 'vertical' && currentGrid + shipLength * 10 - 10 <= 99) ||
-      (rotation === 'horizontal' &&
-        currentGrid < 10 &&
-        currentGrid.toString().length ===
-          shipFurthestLocation.toString().length) ||
-      (rotation === 'horizontal' &&
-        currentGrid.toString().split('')[0] ===
-          shipFurthestLocation.toString().split('')[0])
-    );
+    // If anything above is not a match, it means ship is deployable and returns true
+    return true;
   }
 }

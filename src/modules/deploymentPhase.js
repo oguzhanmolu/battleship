@@ -10,11 +10,9 @@ export default class ModalGameBoard {
 
   static deployShip(shipLength, rotation) {
     ModalGameBoard.gridMouseActions(4, 'horizontal');
-
-    //
   }
 
-  // Switch ship rotation on 'r' keydown
+  // Switch ship rotation no button click
   static switchShipRotation() {
     const rotateButton = document.getElementById('rotate-button');
     rotateButton.addEventListener('click', () => {
@@ -23,8 +21,7 @@ export default class ModalGameBoard {
   }
 
   // Loop ship length and add hover effects on grids.
-  // Set next grid's length according to rotation.
-  // 10 for vertical, 1 for horizontal.
+  // Set next grid's length according to rotation.(10 for vertical, 1 for horizontal.)
   static setGridColor(currentGrid, shipLength, rotation, color) {
     const modalGameBoard = document.getElementById('modal-game-board');
 
@@ -39,7 +36,7 @@ export default class ModalGameBoard {
     }
   }
 
-  // Highlight on hover
+  //GameBoard grid 'Mouseover' 'Mouseout' 'Click' actions
   static gridMouseActions(shipLength, rotation) {
     const gridAll = document.querySelectorAll('.grid');
 
