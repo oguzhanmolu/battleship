@@ -11,13 +11,30 @@ export default class GameBoard {
     }
   }
 
-  // Checks current grid length and ship length&rotation,
-  // If any ship deployment grid is orange(means ship already exists) return,
-  // If not, it means grid is available to deploy ship and hover effects are on.
+  // Returns true if ship is deployable to the current grid
   static isShipDeployable(currentGrid, shipLength, rotation) {
+    const modalGameBoard = document.getElementById('modal-game-board');
     const shipFurthestLocation = currentGrid + shipLength - 1;
 
-    // Check if grids are next to each other and not in next row (means it's legit to deploy ship)
+    // Returns false if any grids are orange (meaning there is a ship there)
+    let indexArr = [currentGrid];
+    for (let i = 1; i < shipLength; i++) {
+      let nextGrid;
+      rotation === 'horizontal'
+        ? (nextGrid = currentGrid + i)
+        : (nextGrid = currentGrid + i * 10);
+      if (nextGrid > 99) return false;
+      indexArr.push(nextGrid);
+    }
+    if (
+      indexArr.some(
+        (index) =>
+          modalGameBoard.childNodes[index].style.backgroundColor === 'orange'
+      )
+    )
+      return false;
+
+    // Returns false if all of the ship parts are not in the same row
     return (
       (rotation === 'vertical' && currentGrid + shipLength * 10 - 10 <= 99) ||
       (rotation === 'horizontal' &&
@@ -27,24 +44,6 @@ export default class GameBoard {
       (rotation === 'horizontal' &&
         currentGrid.toString().split('')[0] ===
           shipFurthestLocation.toString().split('')[0])
-    );
-  }
-  static checkShipExistence(currentGrid, shipLength, rotation) {
-    const modalGameBoard = document.getElementById('modal-game-board');
-    let indexArr = [currentGrid];
-    // Check if grid color ==='orange'
-    for (let i = 1; i < shipLength; i++) {
-      let nextGrid;
-      rotation === 'horizontal'
-        ? (nextGrid = currentGrid + i)
-        : (nextGrid = currentGrid + i * 10);
-      if (nextGrid > 99) return false;
-      indexArr.push(nextGrid);
-    }
-
-    return indexArr.every(
-      (index) =>
-        modalGameBoard.childNodes[index].style.backgroundColor !== 'orange'
     );
   }
 }

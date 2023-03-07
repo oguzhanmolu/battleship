@@ -1,10 +1,6 @@
 import GameBoard from './gameboard';
 
 export default class ModalGameBoard {
-  constructor(rotation) {
-    this.rotation = 'xd;';
-  }
-
   // Create 10x10 game board
   static createModalGameBoard() {
     const modalGameBoard = document.getElementById('modal-game-board');
@@ -13,6 +9,8 @@ export default class ModalGameBoard {
   }
 
   static deployShip(shipLength, rotation) {
+    ModalGameBoard.gridMouseActions(4, 'horizontal');
+
     //
   }
 
@@ -36,12 +34,6 @@ export default class ModalGameBoard {
         ? (nextGrid = currentGrid + i)
         : (nextGrid = currentGrid + i * 10);
 
-      if (
-        modalGameBoard.childNodes[currentGrid].style.backgroundColor ===
-          'orange' &&
-        modalGameBoard.childNodes[nextGrid].style.backgroundColor === 'orange'
-      )
-        return;
       modalGameBoard.childNodes[currentGrid].style.backgroundColor = color;
       modalGameBoard.childNodes[nextGrid].style.backgroundColor = color;
     }
@@ -57,14 +49,7 @@ export default class ModalGameBoard {
         const currentGridLength = Number(singleGrid.textContent);
 
         // If ship is deployable to the current grid, highlight it.
-        if (
-          GameBoard.checkShipExistence(
-            currentGridLength,
-            shipLength,
-            rotation
-          ) &&
-          GameBoard.isShipDeployable(currentGridLength, shipLength, rotation)
-        )
+        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
           this.setGridColor(
             currentGridLength,
             shipLength,
@@ -79,14 +64,7 @@ export default class ModalGameBoard {
       singleGrid.addEventListener('mouseout', () => {
         const currentGridLength = Number(singleGrid.textContent);
         // Check if ship deployment is legit, before trying to cancel the hover effect.
-        if (
-          GameBoard.checkShipExistence(
-            currentGridLength,
-            shipLength,
-            rotation
-          ) &&
-          GameBoard.isShipDeployable(currentGridLength, shipLength, rotation)
-        )
+        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
           this.setGridColor(currentGridLength, shipLength, rotation, 'white');
       })
     );
@@ -98,14 +76,7 @@ export default class ModalGameBoard {
 
         // If ship is deployable to the current grid, highlight it.
 
-        if (
-          GameBoard.checkShipExistence(
-            currentGridLength,
-            shipLength,
-            rotation
-          ) &&
-          GameBoard.isShipDeployable(currentGridLength, shipLength, rotation)
-        )
+        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
           this.setGridColor(currentGridLength, shipLength, rotation, 'orange');
       })
     );
