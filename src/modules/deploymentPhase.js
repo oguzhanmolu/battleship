@@ -9,7 +9,7 @@ export default class ModalGameBoard {
   }
 
   static deployShip(shipLength, rotation) {
-    ModalGameBoard.gridMouseActions(4, 'horizontal');
+    ModalGameBoard.gridMouseActions(4, 'vertical');
   }
 
   // Switch ship rotation no button click
