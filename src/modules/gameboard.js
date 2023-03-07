@@ -1,5 +1,3 @@
-import ModalGameBoard from './deploymentPhase';
-
 export default class GameBoard {
   // Create 10x10 game board and append on parent
   static createGameBoard(parent) {
@@ -22,29 +20,30 @@ export default class GameBoard {
       rotation === 'horizontal'
         ? (nextGrid = currentGrid + i)
         : (nextGrid = currentGrid + i * 10);
-      if (nextGrid > 99) return false;
       indexArr.push(nextGrid);
     }
 
-    // Returns false if any grids are orange (meaning there is a ship there) or,
-    // Grid index is > 99
+    // Returns false if any grids are black color (meaning there is a ship there) or,
+    // Grid index is > 99 which is higher than game board max index
     if (
       indexArr.some(
         (index) =>
+          index > 99 ||
           modalGameBoard.childNodes[index].style.backgroundColor === 'orange'
-      )
-    )
-      return false;
-    // Returns true if all of the ship's parts are in the same row horizontally
-    return (
-      (rotation === 'vertical' && currentGrid + shipLength * 10 - 10 <= 99) ||
+      ) ||
+      // Returns false if all of the ship's parts are not in the same row horizontally
       (rotation === 'horizontal' &&
         currentGrid < 10 &&
-        currentGrid.toString().length ===
+        currentGrid.toString().length !==
           shipFurthestLocation.toString().length) ||
       (rotation === 'horizontal' &&
-        currentGrid.toString().split('')[0] ===
+        currentGrid > 9 &&
+        currentGrid.toString().split('')[0] !==
           shipFurthestLocation.toString().split('')[0])
-    );
+    )
+      return false;
+
+    // If not, return true as default
+    return true;
   }
 }
