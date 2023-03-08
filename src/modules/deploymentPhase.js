@@ -1,5 +1,6 @@
 import GameBoard from './gameboard';
 import Ship from './ship';
+const shipArray = Ship.createShipArray();
 export default class ModalGameBoard {
   // Create 10x10 game board
   static createModalGameBoard() {
@@ -11,26 +12,19 @@ export default class ModalGameBoard {
   // Filter undeployed ships, and deploy them on click
   static deployShip() {
     const gridAll = document.querySelectorAll('.grid');
+
     // const modalGameBoard = document.getElementById('modal-game-board');
-    const shipArray = Ship.createShipObject();
 
-    gridAll.forEach((singleGrid) =>
-      singleGrid.addEventListener('mouseout', () => {
-        if (!shipArray[0]) return;
-
-        this.gridMouseActions(shipArray[0].length, shipArray[0].rotation);
-      })
-    );
+    this.gridHoverEffects();
 
     // Deploy ship on click
     gridAll.forEach((singleGrid) =>
       singleGrid.addEventListener('click', () => {
         const currentGridLength = Number(singleGrid.textContent);
 
-        if (!shipArray[0]) return;
-
-        // If ship is not deployable to the current grid then return
+        // Check if ship is deployable to the current grid
         if (
+          !shipArray[0] ||
           !GameBoard.isShipDeployable(
             currentGridLength,
             shipArray[0].length,
@@ -38,6 +32,9 @@ export default class ModalGameBoard {
           )
         )
           return;
+
+        // Set ship img/text
+        this.setShipInfo(shipArray[0].shipType);
 
         // Set grid color
         this.setGridColor(
@@ -49,9 +46,6 @@ export default class ModalGameBoard {
 
         // Remove first element from array if deployment was successful.
         shipArray.shift();
-
-        // Set ship img/text
-        if (shipArray[0]) this.setShipInfo(shipArray[0].shipType);
       })
     );
   }
@@ -60,7 +54,11 @@ export default class ModalGameBoard {
   static switchShipRotation() {
     const rotateButton = document.getElementById('rotate-button');
     rotateButton.addEventListener('click', () => {
-      const shipArray = Ship.createShipObject();
+      shipArray.map((ship) =>
+        ship.rotation === 'vertical'
+          ? (ship.rotation = 'horizontal')
+          : ship.rotation === 'vertical'
+      );
     });
   }
 
@@ -90,7 +88,7 @@ export default class ModalGameBoard {
   }
 
   //GameBoard grid 'Mouseover' 'Mouseout' 'Click' actions
-  static gridMouseActions(shipLength, rotation) {
+  static gridHoverEffects(shipLength, rotation) {
     const gridAll = document.querySelectorAll('.grid');
 
     // Highlight current grid on 'mouseover'
@@ -99,11 +97,18 @@ export default class ModalGameBoard {
         const currentGridLength = Number(singleGrid.textContent);
 
         // If ship is deployable to the current grid, highlight it.
-        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
+        if (
+          shipArray[0] &&
+          GameBoard.isShipDeployable(
+            currentGridLength,
+            shipArray[0].length,
+            shipArray[0].rotation
+          )
+        )
           this.setGridColor(
             currentGridLength,
-            shipLength,
-            rotation,
+            shipArray[0].length,
+            shipArray[0].rotation,
             'rgba(0,0,0,.5)'
           );
       });
@@ -114,8 +119,20 @@ export default class ModalGameBoard {
       singleGrid.addEventListener('mouseout', () => {
         const currentGridLength = Number(singleGrid.textContent);
         // Check if ship deployment is legit, before trying to cancel the hover effect.
-        if (GameBoard.isShipDeployable(currentGridLength, shipLength, rotation))
-          this.setGridColor(currentGridLength, shipLength, rotation, 'white');
+        if (
+          shipArray[0] &&
+          GameBoard.isShipDeployable(
+            currentGridLength,
+            shipArray[0].length,
+            shipArray[0].rotation
+          )
+        )
+          this.setGridColor(
+            currentGridLength,
+            shipArray[0].length,
+            shipArray[0].rotation,
+            'white'
+          );
       })
     );
   }
