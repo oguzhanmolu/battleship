@@ -1,6 +1,7 @@
 import GameBoard from './gameboard';
 import Ship from './ship';
 const shipArray = Ship.createShipArray();
+
 export default class ModalGameBoard {
   // Create 10x10 game board
   static createModalGameBoard() {
@@ -12,9 +13,9 @@ export default class ModalGameBoard {
   // Filter undeployed ships, and deploy them on click
   static deployShip() {
     const gridAll = document.querySelectorAll('.grid');
-
     // const modalGameBoard = document.getElementById('modal-game-board');
 
+    // Hover effects
     this.gridHoverEffects();
 
     // Deploy ship on click
@@ -33,9 +34,6 @@ export default class ModalGameBoard {
         )
           return;
 
-        // Set ship img/text
-        this.setShipInfo(shipArray[0].shipType);
-
         // Set grid color
         this.setGridColor(
           currentGridLength,
@@ -46,6 +44,9 @@ export default class ModalGameBoard {
 
         // Remove first element from array if deployment was successful.
         shipArray.shift();
+
+        // Set ship img/text
+        if (shipArray[0]) this.setShipInfo(shipArray[0].shipType);
       })
     );
   }
@@ -57,8 +58,9 @@ export default class ModalGameBoard {
       shipArray.map((ship) =>
         ship.rotation === 'vertical'
           ? (ship.rotation = 'horizontal')
-          : ship.rotation === 'vertical'
+          : (ship.rotation = 'vertical')
       );
+      console.log(shipArray);
     });
   }
 
