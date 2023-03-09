@@ -37,6 +37,14 @@ main {
   color: black;
 }
 
+#game-title {
+  display: none;
+  position: fixed;
+  margin-top: 200px;
+  font-size: 4rem;
+  animation: appear 2s;
+}
+
 /* MODAL */
 #modal {
   align-items: center;
@@ -53,8 +61,10 @@ main {
   display: block;
   margin: 10px auto 0 auto;
 }
-
-#modal-text,
+#modal-ship-info {
+  animation: appear 2s;
+}
+.modal-text,
 #modal-fixed-text,
 .grid,
 #rotate-button {
@@ -84,13 +94,13 @@ main,
 }
 #modal-gameboard-main {
   margin-top: 25px;
-  transition: all ease-in-out 2.5s;
+  transition: all ease-in-out 2s;
 }
 #computer-game-board {
   display: none;
   position: fixed;
-  margin-top: 62.5px;
-  animation: slide 2.5s;
+  margin-top: 25px;
+  animation: slide 2s;
   transform: translate(100%);
 }
 #modal-gameboard-text-group {
@@ -114,11 +124,14 @@ main,
   grid-template-columns: repeat(10, 1fr);
 }
 .grid {
+  height: 40px;
+  width: 40px;
   margin: 1px;
   border: 3px solid black;
   cursor: pointer;
 }
 
+/* Animation */
 @keyframes slide {
   0% {
     transform: translate(0%);
@@ -126,5 +139,15 @@ main,
 
   100% {
     transform: translate(100%);
+  }
+}
+
+@keyframes appear {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
   }
 }
