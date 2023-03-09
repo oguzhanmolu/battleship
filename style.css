@@ -62,14 +62,20 @@ main {
 }
 #modal-fixed-text {
   position: fixed;
-  writing-mode: vertical-lr;
   transform: translate(-100%);
+
+  writing-mode: vertical-lr;
 }
 .ship-img {
   height: 100px;
 }
 
 /* Modal gameboard */
+#modal-game-board-group {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 25px;
+}
 main,
 #modal,
 #modal-gameboard-main {
@@ -78,6 +84,14 @@ main,
 }
 #modal-gameboard-main {
   margin-top: 25px;
+  transition: all ease-in-out 2.5s;
+}
+#computer-game-board {
+  display: none;
+  position: fixed;
+  margin-top: 62.5px;
+  animation: slide 2.5s;
+  transform: translate(100%);
 }
 #modal-gameboard-text-group {
   display: flex;
@@ -103,4 +117,14 @@ main,
   margin: 1px;
   border: 3px solid black;
   cursor: pointer;
+}
+
+@keyframes slide {
+  0% {
+    transform: translate(0%);
+  }
+
+  100% {
+    transform: translate(100%);
+  }
 }
