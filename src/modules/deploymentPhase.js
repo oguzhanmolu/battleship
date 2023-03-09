@@ -91,13 +91,17 @@ export default class DeploymentPhase {
     shipImg.alt = `${shipType} image`;
   }
 
-  // End deployment phase by hiding modal childs and move gameboard to left
+  // End deployment phase by hiding modal children and moving game board to the left
+  // Display computer game board
   static endDeploymentPhase() {
     const gridAll = document.querySelectorAll('.grid');
     const gameBoardMain = document.getElementById('modal-gameboard-main');
     const modalShipInfoGroup = document.getElementById('modal-ship-info');
-    const rotateButton = document.getElementById('rotate-button');
     const computerGameBoard = document.getElementById('computer-game-board');
+    const rotateButton = document.getElementById('rotate-button');
+    const modalText = document.querySelectorAll('.modal-text');
+    const modalFixedText = document.getElementById('modal-fixed-text');
+    const gameTitle = document.getElementById('game-title');
 
     // Prepare page for 'playPhase'
     gridAll.forEach((grid) =>
@@ -105,8 +109,11 @@ export default class DeploymentPhase {
         if (shipArray.length === 0) {
           computerGameBoard.style.display = 'grid';
           gameBoardMain.style.transform = 'translate(-100%)';
+          gameTitle.style.display = 'block';
           modalShipInfoGroup.style.display = 'none';
           rotateButton.style.display = 'none';
+          modalText.forEach((text) => (text.style.display = 'none'));
+          modalFixedText.style.display = 'none';
         }
       })
     );
