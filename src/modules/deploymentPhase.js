@@ -1,8 +1,9 @@
 import GameBoard from './gameboard';
 import Ship from './ship';
+import PlayPhase from './playPhase';
 const shipArray = Ship.createShipArray();
 
-export default class ModalGameBoard {
+export default class DeploymentPhase {
   // Create 10x10 game board
   static createModalGameBoard() {
     const modalGameBoard = document.getElementById('modal-game-board');
@@ -13,7 +14,6 @@ export default class ModalGameBoard {
   // Filter undeployed ships, and deploy them on click
   static deployShip() {
     const gridAll = document.querySelectorAll('.grid');
-    // const modalGameBoard = document.getElementById('modal-game-board');
 
     // Hover effects
     this.gridHoverEffects();
@@ -22,6 +22,9 @@ export default class ModalGameBoard {
     gridAll.forEach((singleGrid) =>
       singleGrid.addEventListener('click', () => {
         const currentGridLength = Number(singleGrid.textContent);
+
+        // If there is only one ship existing before the click,
+        // Then
 
         // Check if ship is deployable to the current grid
         if (
@@ -60,7 +63,6 @@ export default class ModalGameBoard {
           ? (ship.rotation = 'horizontal')
           : (ship.rotation = 'vertical')
       );
-      console.log(shipArray);
     });
   }
 
@@ -89,8 +91,29 @@ export default class ModalGameBoard {
     shipImg.alt = `${shipType} image`;
   }
 
+  // End deployment phase by hiding modal childs and move gameboard to left
+  static endDeploymentPhase() {
+    const gridAll = document.querySelectorAll('.grid');
+    const gameBoardMain = document.getElementById('modal-gameboard-main');
+    const modalShipInfoGroup = document.getElementById('modal-ship-info');
+    const rotateButton = document.getElementById('rotate-button');
+    const computerGameBoard = document.getElementById('computer-game-board');
+
+    // Prepare page for 'playPhase'
+    gridAll.forEach((grid) =>
+      grid.addEventListener('click', () => {
+        if (shipArray.length === 0) {
+          computerGameBoard.style.display = 'grid';
+          gameBoardMain.style.transform = 'translate(-100%)';
+          modalShipInfoGroup.style.display = 'none';
+          rotateButton.style.display = 'none';
+        }
+      })
+    );
+  }
+
   //GameBoard grid 'Mouseover' 'Mouseout' 'Click' actions
-  static gridHoverEffects(shipLength, rotation) {
+  static gridHoverEffects() {
     const gridAll = document.querySelectorAll('.grid');
 
     // Highlight current grid on 'mouseover'

@@ -1,5 +1,8 @@
-import ModalGameBoard from './modules/deploymentPhase';
+import DeploymentPhase from './modules/deploymentPhase';
+import PlayPhase from './modules/playPhase';
 
-ModalGameBoard.createModalGameBoard();
-ModalGameBoard.deployShip();
-ModalGameBoard.switchShipRotation();
+DeploymentPhase.createModalGameBoard();
+DeploymentPhase.deployShip();
+DeploymentPhase.switchShipRotation();
+DeploymentPhase.endDeploymentPhase();
+PlayPhase.createComputerGameBoard();
