@@ -128,7 +128,7 @@ main,
   cursor: pointer;
 }
 
-/* Animation */
+/* Animations */
 @keyframes slide-right {
   0% {
     opacity: 0;
