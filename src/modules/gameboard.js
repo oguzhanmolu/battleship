@@ -1,3 +1,7 @@
+import Ship from './ship';
+import DeploymentPhase from './deploymentPhase';
+const computerShipArray = Ship.createShipArray();
+
 export default class GameBoard {
   // Create 10x10 game board and append on parent
   static createGameBoard(parent) {
@@ -9,6 +13,36 @@ export default class GameBoard {
       grid.textContent = i;
 
       parent.appendChild(grid);
+    }
+  }
+
+  // Deploy computer's ships
+  static deployComputerShips() {
+    const computerGameBoard = document.getElementById('computer-game-board');
+
+    // Deploy  computer ships randomly
+    while (computerShipArray.length > 0) {
+      let randomIndex = Math.floor(Math.random() * 101);
+      let randomRotation =
+        Math.floor(Math.random() * 2) === 0 ? 'vertical' : 'horizontal';
+
+      if (
+        GameBoard.isShipDeployable(
+          randomIndex,
+          computerShipArray[0].length,
+          randomRotation
+        )
+      ) {
+        DeploymentPhase.setGridColor(
+          computerGameBoard,
+          randomIndex,
+          computerShipArray[0].length,
+          randomRotation,
+          'black',
+          'white'
+        );
+        computerShipArray.shift();
+      }
     }
   }
 

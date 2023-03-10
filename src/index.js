@@ -1,4 +1,5 @@
 import DeploymentPhase from './modules/deploymentPhase';
+import GameBoard from './modules/gameboard';
 import PlayPhase from './modules/playPhase';
 
 DeploymentPhase.createPlayerGameBoard();
@@ -8,4 +9,4 @@ DeploymentPhase.deployShip();
 DeploymentPhase.endDeploymentPhase();
 
 PlayPhase.createComputerGameBoard();
-PlayPhase.deployComputerShips();
+GameBoard.deployComputerShips();

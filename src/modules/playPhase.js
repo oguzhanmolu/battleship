@@ -21,16 +21,4 @@ export default class PlayPhase {
     });
     return shipCoordinates;
   }
-  // Deploy computer's ships
-  static deployComputerShips() {
-    const computerGameBoard = document.getElementById('computer-game-board');
-
-    computerGameBoard.childNodes.forEach((child) =>
-      child.addEventListener('click', () => {
-        console.log(child.id);
-      })
-    );
-
-    //
-  }
 }

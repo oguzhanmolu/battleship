@@ -1,7 +1,6 @@
 import GameBoard from './gameboard';
 import Ship from './ship';
-import PlayPhase from './playPhase';
-const shipArray = Ship.createShipArray();
+const playerShipArray = Ship.createShipArray();
 
 export default class DeploymentPhase {
   // Create 10x10 game board
@@ -13,27 +12,24 @@ export default class DeploymentPhase {
 
   // Set grid colors according to ship length and rotation
   static setGridColor(
+    parent,
     currentGrid,
     shipLength,
     rotation,
     background,
     textColor
   ) {
-    const playerGameBoard = document.getElementById('player-game-board');
-
     for (let i = 1; i < shipLength; i++) {
       let nextGrid;
       rotation === 'horizontal'
         ? (nextGrid = currentGrid + i)
         : (nextGrid = currentGrid + i * 10);
 
-      playerGameBoard.childNodes[currentGrid].style.backgroundColor =
-        background;
-      playerGameBoard.childNodes[nextGrid].style.backgroundColor = background;
+      parent.childNodes[currentGrid].style.backgroundColor = background;
+      parent.childNodes[nextGrid].style.backgroundColor = background;
 
-      if (textColor)
-        playerGameBoard.childNodes[currentGrid].style.color = textColor;
-      playerGameBoard.childNodes[nextGrid].style.color = textColor;
+      if (textColor) parent.childNodes[currentGrid].style.color = textColor;
+      parent.childNodes[nextGrid].style.color = textColor;
     }
   }
 
@@ -50,7 +46,7 @@ export default class DeploymentPhase {
   static switchShipRotation() {
     const rotateButton = document.getElementById('rotate-button');
     rotateButton.addEventListener('click', () => {
-      shipArray.map((ship) =>
+      playerShipArray.map((ship) =>
         ship.rotation === 'vertical'
           ? (ship.rotation = 'horizontal')
           : (ship.rotation = 'vertical')
@@ -58,10 +54,11 @@ export default class DeploymentPhase {
     });
   }
 
-  // Deploy first ship from shipArray on click
+  // Deploy first ship from playerShipArray on click
   // And shift the element
   static deployShip() {
     const gridAll = document.querySelectorAll('.grid');
+    const playerGameBoard = document.getElementById('player-game-board');
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
@@ -69,29 +66,30 @@ export default class DeploymentPhase {
 
         // Check if ship is deployable to the current grid
         if (
-          !shipArray[0] ||
+          !playerShipArray[0] ||
           !GameBoard.isShipDeployable(
             currentGridLength,
-            shipArray[0].length,
-            shipArray[0].rotation
+            playerShipArray[0].length,
+            playerShipArray[0].rotation
           )
         )
           return;
 
         // Set grid color on successful deployment
         this.setGridColor(
+          playerGameBoard,
           currentGridLength,
-          shipArray[0].length,
-          shipArray[0].rotation,
+          playerShipArray[0].length,
+          playerShipArray[0].rotation,
           'black',
           'white'
         );
 
         // Shift first ship element on successful deployment
-        shipArray.shift();
+        playerShipArray.shift();
 
         // Set ship img/text
-        if (shipArray[0]) this.setShipInfo(shipArray[0].shipType);
+        if (playerShipArray[0]) this.setShipInfo(playerShipArray[0].shipType);
       })
     );
   }
@@ -99,6 +97,7 @@ export default class DeploymentPhase {
   // Game board hover actions
   static gridHoverEffects() {
     const gridAll = document.querySelectorAll('.grid');
+    const playerGameBoard = document.getElementById('player-game-board');
 
     // Highlight current grid on 'mouseover'
     gridAll.forEach((grid) => {
@@ -107,18 +106,19 @@ export default class DeploymentPhase {
 
         // If ship is deployable,
         if (
-          shipArray[0] &&
+          playerShipArray[0] &&
           GameBoard.isShipDeployable(
             currentGridLength,
-            shipArray[0].length,
-            shipArray[0].rotation
+            playerShipArray[0].length,
+            playerShipArray[0].rotation
           )
         )
           // Set color
           this.setGridColor(
+            playerGameBoard,
             currentGridLength,
-            shipArray[0].length,
-            shipArray[0].rotation,
+            playerShipArray[0].length,
+            playerShipArray[0].rotation,
             `gray`
           );
       });
@@ -130,18 +130,19 @@ export default class DeploymentPhase {
         const currentGridLength = Number(grid.id);
         // Check deployability again
         if (
-          shipArray[0] &&
+          playerShipArray[0] &&
           GameBoard.isShipDeployable(
             currentGridLength,
-            shipArray[0].length,
-            shipArray[0].rotation
+            playerShipArray[0].length,
+            playerShipArray[0].rotation
           )
         )
           // Set color
           this.setGridColor(
+            playerGameBoard,
             currentGridLength,
-            shipArray[0].length,
-            shipArray[0].rotation,
+            playerShipArray[0].length,
+            playerShipArray[0].rotation,
             'white'
           );
       })
@@ -160,7 +161,7 @@ export default class DeploymentPhase {
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
-        if (shipArray.length === 0) {
+        if (playerShipArray.length === 0) {
           // Highlight deployed grids
           for (let i = 0; i < 100; i++) {
             if (playerGameBoard.childNodes[i].style.backgroundColor !== `black`)

@@ -15,3 +15,28 @@ export default class Ship {
     ];
   }
 }
+
+// // Deploy  computer ships randomly
+// while (computerShipArray.length !== 0) {
+//   let randomIndex = Math.floor(Math.random() * 101);
+//   let randomRotation =
+//     Math.floor(Math.random() * 2) === 0 ? 'vertical' : 'horizontal';
+
+//   if (
+//     GameBoard.isShipDeployable(
+//       randomIndex,
+//       computerShipArray[0].length,
+//       randomRotation
+//     )
+//   ) {
+//     this.setGridColor(
+//       computerGameBoard,
+//       randomIndex,
+//       computerShipArray[0].length,
+//       randomRotation,
+//       'black',
+//       'white'
+//     );
+//     computerShipArray.shift();
+//   }
+// }
