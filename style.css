@@ -42,7 +42,7 @@ main {
   position: fixed;
   margin-top: 200px;
   font-size: 4rem;
-  animation: appear 2s;
+  animation: appear 1s;
 }
 
 /* MODAL */
@@ -62,15 +62,16 @@ main {
   margin: 10px auto 0 auto;
 }
 #modal-ship-info {
-  animation: appear 2s;
+  animation: appear 1s;
 }
-.modal-text,
-#modal-fixed-text,
+#modal-text,
+.gameboard-text,
+.gameboard-fixed-text,
 .grid,
 #rotate-button {
   font-size: 2rem;
 }
-#modal-fixed-text {
+.gameboard-fixed-text {
   position: fixed;
   transform: translate(-100%);
 
@@ -88,22 +89,22 @@ main {
 }
 main,
 #modal,
-#modal-gameboard-main {
+.gameboard-main {
   display: flex;
   flex-direction: column;
 }
-#modal-gameboard-main {
+.gameboard-main {
   margin-top: 25px;
-  transition: all ease-in-out 2s;
+  transition: all ease-in-out 1s;
 }
 #computer-game-board {
   display: none;
   position: fixed;
   margin-top: 25px;
-  animation: slide 2s;
+  animation: slide 1s;
   transform: translate(100%);
 }
-#modal-gameboard-text-group {
+.gameboard-group {
   display: flex;
   align-items: center;
 }
@@ -124,8 +125,8 @@ main,
   grid-template-columns: repeat(10, 1fr);
 }
 .grid {
-  height: 40px;
-  width: 40px;
+  height: 45px;
+  width: 45px;
   margin: 1px;
   border: 3px solid black;
   cursor: pointer;
