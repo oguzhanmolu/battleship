@@ -44,14 +44,23 @@ export default class DeploymentPhase {
 
   // Switch ship rotation with 'Rotate Ship' click
   static switchShipRotation() {
-    const rotateButton = document.getElementById('rotate-button');
-    rotateButton.addEventListener('click', () => {
+    const btnRotate = document.querySelector('.rotate-button');
+    btnRotate.addEventListener('click', () => {
       playerShipArray.map((ship) =>
         ship.rotation === 'vertical'
           ? (ship.rotation = 'horizontal')
           : (ship.rotation = 'vertical')
       );
     });
+  }
+
+  static deployPlayerShipsRandomly() {
+    const btnRandomDeploy = document.querySelector('.random-deploy-button');
+    const playerGameBoard = document.getElementById('player-game-board');
+
+    btnRandomDeploy.addEventListener('click', () =>
+      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray)
+    );
   }
 
   // Deploy first ship from playerShipArray on click
@@ -68,6 +77,7 @@ export default class DeploymentPhase {
         if (
           !playerShipArray[0] ||
           !GameBoard.isShipDeployable(
+            playerGameBoard,
             currentGridLength,
             playerShipArray[0].length,
             playerShipArray[0].rotation
@@ -108,6 +118,7 @@ export default class DeploymentPhase {
         if (
           playerShipArray[0] &&
           GameBoard.isShipDeployable(
+            playerGameBoard,
             currentGridLength,
             playerShipArray[0].length,
             playerShipArray[0].rotation
@@ -132,6 +143,7 @@ export default class DeploymentPhase {
         if (
           playerShipArray[0] &&
           GameBoard.isShipDeployable(
+            playerGameBoard,
             currentGridLength,
             playerShipArray[0].length,
             playerShipArray[0].rotation
@@ -152,31 +164,15 @@ export default class DeploymentPhase {
   // End deployment phase when all of the ships are deployed.
   static endDeploymentPhase() {
     const gridAll = document.querySelectorAll('.grid');
-    const modalShipInfoGroup = document.getElementById('modal-ship-info');
-    const playerGameBoard = document.getElementById('player-game-board');
-    const rotateButton = document.getElementById('rotate-button');
-    const gameBoardTitle = document.querySelectorAll('.gameboard-title');
-    const playerMain = document.getElementById('player-gameboard-main');
-    const computerMain = document.getElementById('computer-gameboard-main');
+    const btnRandomDeploy = document.querySelector('.random-deploy-button');
+
+    btnRandomDeploy.addEventListener('click', () =>
+      GameBoard.changeToPlayPhase()
+    );
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
-        if (playerShipArray.length === 0) {
-          // Highlight deployed grids
-          for (let i = 0; i < 100; i++) {
-            if (playerGameBoard.childNodes[i].style.backgroundColor !== `black`)
-              playerGameBoard.childNodes[i].textContent = '';
-          }
-
-          // CSS changes
-          gameBoardTitle.forEach((text) => (text.style.display = 'block'));
-          playerMain.style.transform = 'translate(-100%)';
-          playerMain.style.animation = 'slide-left 1s';
-          computerMain.style.display = 'flex';
-          computerMain.style.flexDirection = 'column';
-          modalShipInfoGroup.style.display = 'none';
-          rotateButton.style.display = 'none';
-        }
+        if (playerShipArray.length === 0) GameBoard.changeToPlayPhase();
       })
     );
   }

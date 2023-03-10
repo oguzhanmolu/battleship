@@ -17,38 +17,36 @@ export default class GameBoard {
   }
 
   // Deploy computer's ships
-  static deployComputerShips() {
-    const computerGameBoard = document.getElementById('computer-game-board');
-
+  static deployShipsRandomly(parent, shipArray) {
     // Deploy  computer ships randomly
-    while (computerShipArray.length > 0) {
+    while (shipArray.length > 0) {
       let randomIndex = Math.floor(Math.random() * 101);
       let randomRotation =
         Math.floor(Math.random() * 2) === 0 ? 'vertical' : 'horizontal';
 
       if (
         GameBoard.isShipDeployable(
+          parent,
           randomIndex,
-          computerShipArray[0].length,
+          shipArray[0].length,
           randomRotation
         )
       ) {
         DeploymentPhase.setGridColor(
-          computerGameBoard,
+          parent,
           randomIndex,
-          computerShipArray[0].length,
+          shipArray[0].length,
           randomRotation,
           'black',
           'white'
         );
-        computerShipArray.shift();
+        shipArray.shift();
       }
     }
   }
 
   // Returns true if ship is deployable to the current grid
-  static isShipDeployable(currentGrid, shipLength, rotation) {
-    const modalGameBoard = document.getElementById('player-game-board');
+  static isShipDeployable(parent, currentGrid, shipLength, rotation) {
     const shipFurthestLocation = currentGrid + shipLength - 1;
 
     let indexArr = [currentGrid];
@@ -66,7 +64,7 @@ export default class GameBoard {
       indexArr.some(
         (index) =>
           index > 99 ||
-          modalGameBoard.childNodes[index].style.backgroundColor === 'black'
+          parent.childNodes[index].style.backgroundColor === 'black'
       ) ||
       // Returns false if  ship is not deployable horizontally
       (rotation === 'horizontal' &&
@@ -82,5 +80,34 @@ export default class GameBoard {
 
     // If not, return true as default
     return true;
+  }
+  static changeToPlayPhase() {
+    const modalShipInfoGroup = document.getElementById('modal-ship-info');
+    const gameBoardTitle = document.querySelectorAll('.gameboard-title');
+    const btnRotate = document.querySelector('.rotate-button');
+    const btnRandomDeploy = document.querySelector('.random-deploy-button');
+    const playerMain = document.getElementById('player-gameboard-main');
+    const playerGameBoard = document.getElementById('player-game-board');
+    const computerMain = document.getElementById('computer-gameboard-main');
+    const computerGameBoard = document.getElementById('computer-game-board');
+
+    // Highlight deployed grids
+    for (let i = 0; i < 100; i++) {
+      if (playerGameBoard.childNodes[i].style.backgroundColor !== `black`)
+        playerGameBoard.childNodes[i].textContent = '';
+    }
+
+    // CSS changes
+    gameBoardTitle.forEach((text) => (text.style.display = 'block'));
+    playerMain.style.transform = 'translate(-100%)';
+    playerMain.style.animation = 'slide-left 1s';
+    computerMain.style.display = 'flex';
+    computerMain.style.flexDirection = 'column';
+    modalShipInfoGroup.style.display = 'none';
+    btnRotate.style.display = 'none';
+    btnRandomDeploy.style.display = 'none';
+
+    // Deploy computer ships randomly
+    GameBoard.deployShipsRandomly(computerGameBoard, computerShipArray);
   }
 }
