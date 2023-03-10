@@ -62,7 +62,7 @@ main {
 .gameboard-text,
 .gameboard-fixed-text,
 .grid,
-#rotate-button {
+.button {
   font-size: 2rem;
 }
 .gameboard-fixed-text {
@@ -104,16 +104,16 @@ main,
   display: flex;
   align-items: center;
 }
-#rotate-button {
+.button {
   background-color: black;
   color: white;
-  width: 200px;
+  width: 250px;
   padding: 10px;
   margin: 25px auto 0 auto;
   transition: ease-in-out 0.25s;
   cursor: pointer;
 }
-#rotate-button:hover {
+.button:hover {
   scale: 1.1;
 }
 .game-board {
