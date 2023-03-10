@@ -116,7 +116,7 @@ export default class DeploymentPhase {
     );
     const playerGameBoard = document.getElementById('player-game-board');
     const rotateButton = document.getElementById('rotate-button');
-    const playerName = document.querySelectorAll('.gameboard-title');
+    const gameBoardTitle = document.querySelectorAll('.gameboard-title');
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
@@ -128,10 +128,12 @@ export default class DeploymentPhase {
           }
 
           // Style changes for play phase preparation
-          playerName.forEach((text) => (text.style.display = 'block'));
+          gameBoardTitle.forEach((text) => (text.style.display = 'block'));
           computerGameBoardMain.style.display = 'flex';
           computerGameBoardMain.style.flexDirection = 'column';
           playerGameBoardMain.style.transform = 'translate(-100%)';
+          playerGameBoardMain.style.animation = 'slide-left 1s';
+
           modalShipInfoGroup.style.display = 'none';
           rotateButton.style.display = 'none';
         }

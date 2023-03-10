@@ -37,14 +37,6 @@ main {
   color: black;
 }
 
-#game-title {
-  display: none;
-  position: fixed;
-  margin-top: 200px;
-  font-size: 4rem;
-  animation: appear 1s;
-}
-
 /* MODAL */
 #modal {
   align-items: center;
@@ -105,7 +97,7 @@ main,
   display: none;
   position: fixed;
   margin-top: 25px;
-  animation: slide 1s;
+  animation: slide-right 1s;
   transform: translate(100%);
 }
 .gameboard-group {
@@ -137,13 +129,26 @@ main,
 }
 
 /* Animation */
-@keyframes slide {
+@keyframes slide-right {
   0% {
+    opacity: 0;
     transform: translate(0%);
   }
 
   100% {
+    opacity: 0.5;
     transform: translate(100%);
+  }
+}
+@keyframes slide-left {
+  0% {
+    opacity: 0;
+    transform: translate(0%);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: translate(-100%);
   }
 }
 
