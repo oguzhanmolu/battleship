@@ -7,7 +7,7 @@ export default class PlayPhase {
     GameBoard.createGameBoard(computerGameBoard);
 
     for (let i = 0; i < 100; i++) {
-      computerGameBoard.childNodes[i].textContent = '?';
+      computerGameBoard.childNodes[i].textContent = '';
     }
   }
 }

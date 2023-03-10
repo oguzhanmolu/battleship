@@ -5,10 +5,10 @@ const shipArray = Ship.createShipArray();
 
 export default class DeploymentPhase {
   // Create 10x10 game board
-  static createModalGameBoard() {
-    const modalGameBoard = document.getElementById('modal-game-board');
-    modalGameBoard.classList.add('game-board');
-    GameBoard.createGameBoard(modalGameBoard);
+  static createPlayerGameBoard() {
+    const playerGameBoard = document.getElementById('player-game-board');
+    playerGameBoard.classList.add('game-board');
+    GameBoard.createGameBoard(playerGameBoard);
   }
 
   // Filter undeployed ships, and deploy them on click
@@ -42,7 +42,8 @@ export default class DeploymentPhase {
           currentGridLength,
           shipArray[0].length,
           shipArray[0].rotation,
-          'orange'
+          'black',
+          'white'
         );
 
         // Remove first element from array if deployment was successful.
@@ -68,8 +69,14 @@ export default class DeploymentPhase {
 
   // Loop ship length and add hover effects on grids.
   // Set next grid's length according to rotation.(10 for vertical, 1 for horizontal.)
-  static setGridColor(currentGrid, shipLength, rotation, color) {
-    const modalGameBoard = document.getElementById('modal-game-board');
+  static setGridColor(
+    currentGrid,
+    shipLength,
+    rotation,
+    background,
+    textColor
+  ) {
+    const playerGameBoard = document.getElementById('player-game-board');
 
     for (let i = 1; i < shipLength; i++) {
       let nextGrid;
@@ -77,8 +84,13 @@ export default class DeploymentPhase {
         ? (nextGrid = currentGrid + i)
         : (nextGrid = currentGrid + i * 10);
 
-      modalGameBoard.childNodes[currentGrid].style.backgroundColor = color;
-      modalGameBoard.childNodes[nextGrid].style.backgroundColor = color;
+      playerGameBoard.childNodes[currentGrid].style.backgroundColor =
+        background;
+      playerGameBoard.childNodes[nextGrid].style.backgroundColor = background;
+
+      if (textColor)
+        playerGameBoard.childNodes[currentGrid].style.color = textColor;
+      playerGameBoard.childNodes[nextGrid].style.color = textColor;
     }
   }
 
@@ -95,25 +107,28 @@ export default class DeploymentPhase {
   // Display computer game board
   static endDeploymentPhase() {
     const gridAll = document.querySelectorAll('.grid');
-    const gameBoardMain = document.getElementById('modal-gameboard-main');
+    const gameBoardMain = document.querySelector('.gameboard-main');
     const modalShipInfoGroup = document.getElementById('modal-ship-info');
+    const playerGameBoard = document.getElementById('player-game-board');
     const computerGameBoard = document.getElementById('computer-game-board');
     const rotateButton = document.getElementById('rotate-button');
-    const modalText = document.querySelectorAll('.modal-text');
-    const modalFixedText = document.getElementById('modal-fixed-text');
     const gameTitle = document.getElementById('game-title');
 
-    // Prepare page for 'playPhase'
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
         if (shipArray.length === 0) {
+          // Game board style changes
+          for (let i = 0; i < 100; i++) {
+            if (playerGameBoard.childNodes[i].style.backgroundColor !== `black`)
+              playerGameBoard.childNodes[i].textContent = '';
+          }
+
+          // Style changes for play phase preparation
+          gameTitle.style.display = 'block';
           computerGameBoard.style.display = 'grid';
           gameBoardMain.style.transform = 'translate(-100%)';
-          gameTitle.style.display = 'block';
           modalShipInfoGroup.style.display = 'none';
           rotateButton.style.display = 'none';
-          modalText.forEach((text) => (text.style.display = 'none'));
-          modalFixedText.style.display = 'none';
         }
       })
     );
@@ -141,7 +156,7 @@ export default class DeploymentPhase {
             currentGridLength,
             shipArray[0].length,
             shipArray[0].rotation,
-            'rgba(0,0,0,.5)'
+            `gray`
           );
       });
     });

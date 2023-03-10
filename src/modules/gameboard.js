@@ -11,7 +11,7 @@ export default class GameBoard {
 
   // Returns true if ship is deployable to the current grid
   static isShipDeployable(currentGrid, shipLength, rotation) {
-    const modalGameBoard = document.getElementById('modal-game-board');
+    const modalGameBoard = document.getElementById('player-game-board');
     const shipFurthestLocation = currentGrid + shipLength - 1;
 
     let indexArr = [currentGrid];
@@ -29,7 +29,7 @@ export default class GameBoard {
       indexArr.some(
         (index) =>
           index > 99 ||
-          modalGameBoard.childNodes[index].style.backgroundColor === 'orange'
+          modalGameBoard.childNodes[index].style.backgroundColor === 'black'
       ) ||
       // Returns false if all of the ship's parts are not in the same row horizontally
       (rotation === 'horizontal' &&
