@@ -3,8 +3,11 @@ export default class GameBoard {
   static createGameBoard(parent) {
     for (let i = 0; i < 100; i++) {
       const grid = document.createElement('div');
+
       grid.classList.add('grid');
+      grid.setAttribute('id', `${i}`);
       grid.textContent = i;
+
       parent.appendChild(grid);
     }
   }
@@ -23,15 +26,15 @@ export default class GameBoard {
       indexArr.push(nextGrid);
     }
 
-    // Returns false if any grids are black color (meaning there is a ship there) or,
-    // Grid index is > 99 which is higher than game board max index
+    // Returns false if any grid is same as ship color or,
+    // Grid index is > 99
     if (
       indexArr.some(
         (index) =>
           index > 99 ||
           modalGameBoard.childNodes[index].style.backgroundColor === 'black'
       ) ||
-      // Returns false if all of the ship's parts are not in the same row horizontally
+      // Returns false if  ship is not deployable horizontally
       (rotation === 'horizontal' &&
         currentGrid < 10 &&
         currentGrid.toString().length !==

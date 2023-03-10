@@ -11,64 +11,7 @@ export default class DeploymentPhase {
     GameBoard.createGameBoard(playerGameBoard);
   }
 
-  // Filter undeployed ships, and deploy them on click
-  static deployShip() {
-    const gridAll = document.querySelectorAll('.grid');
-
-    // Hover effects
-    this.gridHoverEffects();
-
-    // Deploy ship on click
-    gridAll.forEach((singleGrid) =>
-      singleGrid.addEventListener('click', () => {
-        const currentGridLength = Number(singleGrid.textContent);
-
-        // If there is only one ship existing before the click,
-        // Then
-
-        // Check if ship is deployable to the current grid
-        if (
-          !shipArray[0] ||
-          !GameBoard.isShipDeployable(
-            currentGridLength,
-            shipArray[0].length,
-            shipArray[0].rotation
-          )
-        )
-          return;
-
-        // Set grid color
-        this.setGridColor(
-          currentGridLength,
-          shipArray[0].length,
-          shipArray[0].rotation,
-          'black',
-          'white'
-        );
-
-        // Remove first element from array if deployment was successful.
-        shipArray.shift();
-
-        // Set ship img/text
-        if (shipArray[0]) this.setShipInfo(shipArray[0].shipType);
-      })
-    );
-  }
-
-  // Switch ship rotation no button click
-  static switchShipRotation() {
-    const rotateButton = document.getElementById('rotate-button');
-    rotateButton.addEventListener('click', () => {
-      shipArray.map((ship) =>
-        ship.rotation === 'vertical'
-          ? (ship.rotation = 'horizontal')
-          : (ship.rotation = 'vertical')
-      );
-    });
-  }
-
-  // Loop ship length and add hover effects on grids.
-  // Set next grid's length according to rotation.(10 for vertical, 1 for horizontal.)
+  // Set grid colors according to ship length and rotation
   static setGridColor(
     currentGrid,
     shipLength,
@@ -94,7 +37,7 @@ export default class DeploymentPhase {
     }
   }
 
-  // Set ship placeholder text/img src from 'shipType'
+  // Set text/img src from 'shipType'
   static setShipInfo(shipType) {
     let shipInfoText = document.querySelector('.ship-info-text');
     let shipImg = document.querySelector('.ship-img');
@@ -103,54 +46,66 @@ export default class DeploymentPhase {
     shipImg.alt = `${shipType} image`;
   }
 
-  // End deployment phase by hiding modal children and moving game board to the left
-  // Display computer game board
-  static endDeploymentPhase() {
-    const gridAll = document.querySelectorAll('.grid');
-    const modalShipInfoGroup = document.getElementById('modal-ship-info');
-    const playerGameBoardMain = document.getElementById(
-      'player-gameboard-main'
-    );
-    const computerGameBoardMain = document.getElementById(
-      'computer-gameboard-main'
-    );
-    const playerGameBoard = document.getElementById('player-game-board');
+  // Switch ship rotation with 'Rotate Ship' click
+  static switchShipRotation() {
     const rotateButton = document.getElementById('rotate-button');
-    const gameBoardTitle = document.querySelectorAll('.gameboard-title');
+    rotateButton.addEventListener('click', () => {
+      shipArray.map((ship) =>
+        ship.rotation === 'vertical'
+          ? (ship.rotation = 'horizontal')
+          : (ship.rotation = 'vertical')
+      );
+    });
+  }
+
+  // Deploy first ship from shipArray on click
+  // And shift the element
+  static deployShip() {
+    const gridAll = document.querySelectorAll('.grid');
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
-        if (shipArray.length === 0) {
-          // Game board style changes
-          for (let i = 0; i < 100; i++) {
-            if (playerGameBoard.childNodes[i].style.backgroundColor !== `black`)
-              playerGameBoard.childNodes[i].textContent = '';
-          }
+        const currentGridLength = Number(grid.id);
 
-          // Style changes for play phase preparation
-          gameBoardTitle.forEach((text) => (text.style.display = 'block'));
-          computerGameBoardMain.style.display = 'flex';
-          computerGameBoardMain.style.flexDirection = 'column';
-          playerGameBoardMain.style.transform = 'translate(-100%)';
-          playerGameBoardMain.style.animation = 'slide-left 1s';
+        // Check if ship is deployable to the current grid
+        if (
+          !shipArray[0] ||
+          !GameBoard.isShipDeployable(
+            currentGridLength,
+            shipArray[0].length,
+            shipArray[0].rotation
+          )
+        )
+          return;
 
-          modalShipInfoGroup.style.display = 'none';
-          rotateButton.style.display = 'none';
-        }
+        // Set grid color on successful deployment
+        this.setGridColor(
+          currentGridLength,
+          shipArray[0].length,
+          shipArray[0].rotation,
+          'black',
+          'white'
+        );
+
+        // Shift first ship element on successful deployment
+        shipArray.shift();
+
+        // Set ship img/text
+        if (shipArray[0]) this.setShipInfo(shipArray[0].shipType);
       })
     );
   }
 
-  //GameBoard grid 'Mouseover' 'Mouseout' 'Click' actions
+  // Game board hover actions
   static gridHoverEffects() {
     const gridAll = document.querySelectorAll('.grid');
 
     // Highlight current grid on 'mouseover'
-    gridAll.forEach((singleGrid) => {
-      singleGrid.addEventListener('mouseover', () => {
-        const currentGridLength = Number(singleGrid.textContent);
+    gridAll.forEach((grid) => {
+      grid.addEventListener('mouseover', () => {
+        const currentGridLength = Number(grid.id);
 
-        // If ship is deployable to the current grid, highlight it.
+        // If ship is deployable,
         if (
           shipArray[0] &&
           GameBoard.isShipDeployable(
@@ -159,6 +114,7 @@ export default class DeploymentPhase {
             shipArray[0].rotation
           )
         )
+          // Set color
           this.setGridColor(
             currentGridLength,
             shipArray[0].length,
@@ -168,11 +124,11 @@ export default class DeploymentPhase {
       });
     });
 
-    // Cancel highlight when 'mouseout'
-    gridAll.forEach((singleGrid) =>
-      singleGrid.addEventListener('mouseout', () => {
-        const currentGridLength = Number(singleGrid.textContent);
-        // Check if ship deployment is legit, before trying to cancel the hover effect.
+    // Cancel hover effect on 'mouseout'
+    gridAll.forEach((grid) =>
+      grid.addEventListener('mouseout', () => {
+        const currentGridLength = Number(grid.id);
+        // Check deployability again
         if (
           shipArray[0] &&
           GameBoard.isShipDeployable(
@@ -181,12 +137,45 @@ export default class DeploymentPhase {
             shipArray[0].rotation
           )
         )
+          // Set color
           this.setGridColor(
             currentGridLength,
             shipArray[0].length,
             shipArray[0].rotation,
             'white'
           );
+      })
+    );
+  }
+
+  // End deployment phase when all of the ships are deployed.
+  static endDeploymentPhase() {
+    const gridAll = document.querySelectorAll('.grid');
+    const modalShipInfoGroup = document.getElementById('modal-ship-info');
+    const playerGameBoard = document.getElementById('player-game-board');
+    const rotateButton = document.getElementById('rotate-button');
+    const gameBoardTitle = document.querySelectorAll('.gameboard-title');
+    const playerMain = document.getElementById('player-gameboard-main');
+    const computerMain = document.getElementById('computer-gameboard-main');
+
+    gridAll.forEach((grid) =>
+      grid.addEventListener('click', () => {
+        if (shipArray.length === 0) {
+          // Highlight deployed grids
+          for (let i = 0; i < 100; i++) {
+            if (playerGameBoard.childNodes[i].style.backgroundColor !== `black`)
+              playerGameBoard.childNodes[i].textContent = '';
+          }
+
+          // CSS changes
+          gameBoardTitle.forEach((text) => (text.style.display = 'block'));
+          playerMain.style.transform = 'translate(-100%)';
+          playerMain.style.animation = 'slide-left 1s';
+          computerMain.style.display = 'flex';
+          computerMain.style.flexDirection = 'column';
+          modalShipInfoGroup.style.display = 'none';
+          rotateButton.style.display = 'none';
+        }
       })
     );
   }
