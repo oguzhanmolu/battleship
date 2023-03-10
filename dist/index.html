@@ -28,10 +28,6 @@
         </span>
       </div>
 
-      <span id="game-title"
-        >PLAYER <span class="orange-text">VS</span> COMPUTER</span
-      >
-
       <!-- Modal -->
       <div id="modal">
         <div id="modal-main-text">
@@ -48,8 +44,10 @@
           </div>
         </div>
 
-        <!-- Modal game board -->
-        <div class="gameboard-main">
+        <!-- Player game board -->
+        <div id="player-gameboard-main">
+          <span class="orange-text gameboard-title">PLAYER</span>
+
           <div>
             <span class="gameboard-text">Coordinates</span>
 
@@ -69,7 +67,30 @@
 
           <button id="rotate-button">Rotate Ship</button>
         </div>
-        <div id="computer-game-board"></div>
+
+        <!-- Computer game board -->
+        <div id="computer-gameboard-main">
+          <span class="gameboard-title">COMPUTER</span>
+
+          <div>
+            <span class="gameboard-text">Coordinates</span>
+
+            <div class="gameboard-group">
+              <span class="gameboard-fixed-text"
+                >x-axis
+                <i class="fa-solid fa-arrow-down"></i>
+              </span>
+              <div id="computer-game-board"></div>
+            </div>
+
+            <span class="gameboard-text"
+              >y-axis
+              <i class="fa-solid fa-arrow-right"></i>
+            </span>
+          </div>
+
+          <button id="rotate-button">Rotate Ship</button>
+        </div>
       </div>
 
       <!-- Github link -->

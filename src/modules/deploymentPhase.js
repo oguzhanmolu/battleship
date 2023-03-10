@@ -107,12 +107,16 @@ export default class DeploymentPhase {
   // Display computer game board
   static endDeploymentPhase() {
     const gridAll = document.querySelectorAll('.grid');
-    const gameBoardMain = document.querySelector('.gameboard-main');
     const modalShipInfoGroup = document.getElementById('modal-ship-info');
+    const playerGameBoardMain = document.getElementById(
+      'player-gameboard-main'
+    );
+    const computerGameBoardMain = document.getElementById(
+      'computer-gameboard-main'
+    );
     const playerGameBoard = document.getElementById('player-game-board');
-    const computerGameBoard = document.getElementById('computer-game-board');
     const rotateButton = document.getElementById('rotate-button');
-    const gameTitle = document.getElementById('game-title');
+    const playerName = document.querySelectorAll('.gameboard-title');
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
@@ -124,9 +128,10 @@ export default class DeploymentPhase {
           }
 
           // Style changes for play phase preparation
-          gameTitle.style.display = 'block';
-          computerGameBoard.style.display = 'grid';
-          gameBoardMain.style.transform = 'translate(-100%)';
+          playerName.forEach((text) => (text.style.display = 'block'));
+          computerGameBoardMain.style.display = 'flex';
+          computerGameBoardMain.style.flexDirection = 'column';
+          playerGameBoardMain.style.transform = 'translate(-100%)';
           modalShipInfoGroup.style.display = 'none';
           rotateButton.style.display = 'none';
         }

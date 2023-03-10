@@ -64,7 +64,9 @@ main {
 #modal-ship-info {
   animation: appear 1s;
 }
-#modal-text,
+#modal-text {
+  font-size: 3rem;
+}
 .gameboard-text,
 .gameboard-fixed-text,
 .grid,
@@ -81,23 +83,25 @@ main {
   height: 100px;
 }
 
-/* Modal gameboard */
-#modal-game-board-group {
-  display: flex;
-  justify-content: space-evenly;
-  gap: 25px;
+/* Gameboard */
+
+.gameboard-title {
+  display: none;
+  font-size: 4rem;
+  margin-bottom: 25px;
 }
+
 main,
 #modal,
-.gameboard-main {
+#player-gameboard-main {
   display: flex;
   flex-direction: column;
 }
-.gameboard-main {
+#player-gameboard-main {
   margin-top: 25px;
   transition: all ease-in-out 1s;
 }
-#computer-game-board {
+#computer-gameboard-main {
   display: none;
   position: fixed;
   margin-top: 25px;
