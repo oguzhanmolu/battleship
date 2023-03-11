@@ -57,14 +57,13 @@ main {
   animation: appear 1s;
 }
 #modal-text {
-  font-size: 3rem;
+  font-size: 2.5rem;
 }
 .gameboard-text,
-.gameboard-fixed-text,
-.grid,
-.button {
+.gameboard-fixed-text {
   font-size: 2rem;
 }
+
 .gameboard-fixed-text {
   position: fixed;
   transform: translate(-100%);
@@ -107,23 +106,25 @@ main,
 .button {
   background-color: black;
   color: white;
-  width: 250px;
+  width: 175px;
   padding: 10px;
   margin: 25px auto 0 auto;
+  font-size: 1.5rem;
   transition: ease-in-out 0.25s;
   cursor: pointer;
 }
 .button:hover {
-  scale: 1.1;
+  background-color: gray;
 }
 .game-board {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
 }
 .grid {
-  height: 45px;
-  width: 45px;
+  height: 35px;
+  width: 35px;
   margin: 1px;
+  font-size: 1.5rem;
   border: 3px solid black;
   cursor: pointer;
 }
