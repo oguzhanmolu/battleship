@@ -26,6 +26,9 @@ export default class Ship {
   static getPlayerShips() {
     return this.playerShips;
   }
+  static getFirstDeployablePlayerShip() {
+    return this.playerShips.filter((ship) => ship.isDeployed === false)[0];
+  }
   static setComputerShips() {
     return (this.computerShips = this.createShipArray());
   }

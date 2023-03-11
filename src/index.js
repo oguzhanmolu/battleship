@@ -1,5 +1,4 @@
 import DeploymentPhase from './modules/deploymentPhase';
-import GameBoard from './modules/gameboard';
 import PlayPhase from './modules/playPhase';
 import Ship from './modules/ship';
 Ship.setPlayerShips();

@@ -33,12 +33,18 @@ export default class DeploymentPhase {
   }
 
   // Set text/img src from 'shipType'
-  static setShipInfo(shipType) {
+  static setShipInfo() {
+    const deployableShip = Ship.getFirstDeployablePlayerShip();
     let shipInfoText = document.querySelector('.ship-info-text');
     let shipImg = document.querySelector('.ship-img');
-    shipInfoText.textContent = shipType[0].toUpperCase() + shipType.slice(1);
-    shipImg.src = `/dist/img/${shipType}.png`;
-    shipImg.alt = `${shipType} image`;
+
+    if (!deployableShip) return;
+
+    shipInfoText.textContent =
+      deployableShip.shipType[0].toUpperCase() +
+      deployableShip.shipType.slice(1);
+    shipImg.src = `/dist/img/${deployableShip.shipType}.png`;
+    shipImg.alt = `${deployableShip.shipType} image`;
   }
 
   // Switch ship rotation with 'Rotate Ship' click
@@ -69,43 +75,43 @@ export default class DeploymentPhase {
   static deployShip() {
     const gridAll = document.querySelectorAll('.grid');
     const playerGameBoard = document.getElementById('player-game-board');
-    const playerShipArray = Ship.getPlayerShips();
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
         const currentGridLength = Number(grid.id);
+        const deployableShip = Ship.getFirstDeployablePlayerShip();
 
-        // Get first deployable ship, set its coordinates and set isDeployed=true
-        // deployableShip.coordinates = this.setShipCoordinates(
-        //   currentGridLength,
-        //   playerShipArray[0].length,
-        //   playerShipArray[0].rotation
-        // );
-
-        // Check if ship is deployable to the current grid
+        // Check if ship exists and it is deployable to the current grid
         if (
-          !playerShipArray[0] ||
-          !GameBoard.isShipDeployable(
+          deployableShip &&
+          GameBoard.isShipDeployable(
             playerGameBoard,
             currentGridLength,
-            playerShipArray[0].length,
-            playerShipArray[0].rotation
+            deployableShip.length,
+            deployableShip.rotation
           )
-        )
-          return;
+        ) {
+          // Set grid color on successful deployment
+          this.setGridColor(
+            playerGameBoard,
+            currentGridLength,
+            deployableShip.length,
+            deployableShip.rotation,
+            'black',
+            'white'
+          );
 
-        // Set grid color on successful deployment
-        this.setGridColor(
-          playerGameBoard,
-          currentGridLength,
-          playerShipArray[0].length,
-          playerShipArray[0].rotation,
-          'black',
-          'white'
-        );
+          // Set ship isDeployed/coordinates after successful deployment
+          deployableShip.isDeployed = true;
+          deployableShip.coordinates = Ship.setShipCoordinates(
+            currentGridLength,
+            deployableShip.length,
+            deployableShip.rotation
+          );
 
-        // Set ship img/text
-        if (playerShipArray[0]) this.setShipInfo(playerShipArray[0].shipType);
+          // Set ship info/img
+          this.setShipInfo();
+        }
       })
     );
   }
@@ -114,29 +120,29 @@ export default class DeploymentPhase {
   static gridHoverEffects() {
     const gridAll = document.querySelectorAll('.grid');
     const playerGameBoard = document.getElementById('player-game-board');
-    const playerShipArray = Ship.getPlayerShips();
 
     // Highlight current grid on 'mouseover'
     gridAll.forEach((grid) => {
       grid.addEventListener('mouseover', () => {
         const currentGridLength = Number(grid.id);
+        const deployableShip = Ship.getFirstDeployablePlayerShip();
 
         // If ship is deployable,
         if (
-          playerShipArray[0] &&
+          deployableShip &&
           GameBoard.isShipDeployable(
             playerGameBoard,
             currentGridLength,
-            playerShipArray[0].length,
-            playerShipArray[0].rotation
+            deployableShip.length,
+            deployableShip.rotation
           )
         )
           // Set color
           this.setGridColor(
             playerGameBoard,
             currentGridLength,
-            playerShipArray[0].length,
-            playerShipArray[0].rotation,
+            deployableShip.length,
+            deployableShip.rotation,
             `gray`
           );
       });
@@ -146,22 +152,24 @@ export default class DeploymentPhase {
     gridAll.forEach((grid) =>
       grid.addEventListener('mouseout', () => {
         const currentGridLength = Number(grid.id);
-        // Check deployability again
+        const deployableShip = Ship.getFirstDeployablePlayerShip();
+
+        // Check deployability
         if (
-          playerShipArray[0] &&
+          deployableShip &&
           GameBoard.isShipDeployable(
             playerGameBoard,
             currentGridLength,
-            playerShipArray[0].length,
-            playerShipArray[0].rotation
+            deployableShip.length,
+            deployableShip.rotation
           )
         )
           // Set color
           this.setGridColor(
             playerGameBoard,
             currentGridLength,
-            playerShipArray[0].length,
-            playerShipArray[0].rotation,
+            deployableShip.length,
+            deployableShip.rotation,
             'white'
           );
       })
@@ -172,7 +180,6 @@ export default class DeploymentPhase {
   static endDeploymentPhase() {
     const gridAll = document.querySelectorAll('.grid');
     const btnRandomDeploy = document.querySelector('.random-deploy-button');
-    const playerShipArray = Ship.getPlayerShips();
 
     btnRandomDeploy.addEventListener('click', () =>
       GameBoard.changeToPlayPhase()
@@ -180,7 +187,7 @@ export default class DeploymentPhase {
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
-        if (playerShipArray.length === 0) GameBoard.changeToPlayPhase();
+        if (!Ship.getFirstDeployablePlayerShip()) GameBoard.changeToPlayPhase();
       })
     );
   }
