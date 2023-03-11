@@ -15,7 +15,54 @@ export default class GameBoard {
     }
   }
 
-  // Deploy ships randomly, then set coordinates/isDeployed values accordingly
+  // Returns true if ship is deployable to the current grid
+  static isShipDeployable(parent, currentGrid, shipLength, rotation) {
+    const shipFurthestLocation = currentGrid + shipLength - 1;
+    const indexArr = Ship.setShipCoordinates(currentGrid, shipLength, rotation);
+
+    // Returns false if ship is not deployable to current grid. Or else, returns true as default
+    if (
+      indexArr.some(
+        (index) =>
+          index > 99 ||
+          parent.childNodes[index].style.backgroundColor === 'black'
+      ) ||
+      (rotation === 'horizontal' &&
+        currentGrid < 10 &&
+        currentGrid.toString().length !==
+          shipFurthestLocation.toString().length) ||
+      (rotation === 'horizontal' &&
+        currentGrid > 9 &&
+        currentGrid.toString().split('')[0] !==
+          shipFurthestLocation.toString().split('')[0])
+    )
+      return false;
+
+    return true;
+  }
+
+  // Change grid colors from ship coordinates
+  static setGridColor(
+    parent,
+    currentGrid,
+    shipLength,
+    rotation,
+    backgroundColor,
+    textColor
+  ) {
+    const currentShip = Ship.setShipCoordinates(
+      currentGrid,
+      shipLength,
+      rotation
+    );
+
+    currentShip.forEach((shipIndex) => {
+      parent.childNodes[shipIndex].style.background = backgroundColor;
+      if (textColor) parent.childNodes[shipIndex].style.color = textColor;
+    });
+  }
+
+  // Deploy ships randomly
   static deployShipsRandomly(parent, shipArray) {
     shipArray.forEach((ship) => {
       while (ship.isDeployed === false) {
@@ -31,7 +78,7 @@ export default class GameBoard {
             randomRotation
           )
         ) {
-          DeploymentPhase.setGridColor(
+          this.setGridColor(
             parent,
             randomIndex,
             ship.length,
@@ -50,42 +97,7 @@ export default class GameBoard {
     });
   }
 
-  // Returns true if ship is deployable to the current grid
-  static isShipDeployable(parent, currentGrid, shipLength, rotation) {
-    const shipFurthestLocation = currentGrid + shipLength - 1;
-
-    let indexArr = [currentGrid];
-    for (let i = 1; i < shipLength; i++) {
-      let nextGrid;
-      rotation === 'horizontal'
-        ? (nextGrid = currentGrid + i)
-        : (nextGrid = currentGrid + i * 10);
-      indexArr.push(nextGrid);
-    }
-
-    // Returns false if any grid is same as ship color or,
-    // Grid index is > 99
-    if (
-      indexArr.some(
-        (index) =>
-          index > 99 ||
-          parent.childNodes[index].style.backgroundColor === 'black'
-      ) ||
-      // Returns false if  ship is not deployable horizontally
-      (rotation === 'horizontal' &&
-        currentGrid < 10 &&
-        currentGrid.toString().length !==
-          shipFurthestLocation.toString().length) ||
-      (rotation === 'horizontal' &&
-        currentGrid > 9 &&
-        currentGrid.toString().split('')[0] !==
-          shipFurthestLocation.toString().split('')[0])
-    )
-      return false;
-
-    // If not, return true as default
-    return true;
-  }
+  // Change to play phase by hiding bunch of HTML elements
   static changeToPlayPhase() {
     const modalShipInfoGroup = document.getElementById('modal-ship-info');
     const gameBoardTitle = document.querySelectorAll('.gameboard-title');
@@ -94,8 +106,6 @@ export default class GameBoard {
     const playerMain = document.getElementById('player-gameboard-main');
     const playerGameBoard = document.getElementById('player-game-board');
     const computerMain = document.getElementById('computer-gameboard-main');
-    const computerGameBoard = document.getElementById('computer-game-board');
-    const computerShipArray = Ship.getComputerShips();
 
     // Highlight deployed grids
     for (let i = 0; i < 100; i++) {
@@ -112,10 +122,5 @@ export default class GameBoard {
     modalShipInfoGroup.style.display = 'none';
     btnRotate.style.display = 'none';
     btnRandomDeploy.style.display = 'none';
-
-    // Deploy computer ships randomly
-    GameBoard.deployShipsRandomly(computerGameBoard, computerShipArray);
-    console.log(Ship.getPlayerShips());
-    console.log(Ship.getComputerShips());
   }
 }

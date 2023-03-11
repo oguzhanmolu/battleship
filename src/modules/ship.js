@@ -10,7 +10,7 @@ export default class Ship {
     this.playerShips = [];
     this.computerShips = [];
   }
-
+  // Create ship array
   static createShipArray() {
     return [
       new Ship('submarine', 2),
@@ -20,21 +20,40 @@ export default class Ship {
       new Ship('carrier', 5),
     ];
   }
+  // Set player ships
   static setPlayerShips() {
     return (this.playerShips = this.createShipArray());
   }
+  // Get player ships
   static getPlayerShips() {
     return this.playerShips;
   }
+  // Get first player deployable ship
   static getFirstDeployablePlayerShip() {
     return this.playerShips.filter((ship) => ship.isDeployed === false)[0];
   }
+  // Set computer ships
   static setComputerShips() {
     return (this.computerShips = this.createShipArray());
   }
+  // Get computer ships
   static getComputerShips() {
     return this.computerShips;
   }
+
+  // Switch ship rotation with 'Rotate Ship' click
+  static switchShipRotation() {
+    const btnRotate = document.querySelector('.rotate-button');
+    const playerShipArray = this.getPlayerShips();
+    btnRotate.addEventListener('click', () => {
+      playerShipArray.map((ship) =>
+        ship.rotation === 'vertical'
+          ? (ship.rotation = 'horizontal')
+          : (ship.rotation = 'vertical')
+      );
+    });
+  }
+
   static setShipCoordinates(currentGrid, shipLength, rotation) {
     let arr = [currentGrid];
     for (let i = 1; i < shipLength; i++) {
