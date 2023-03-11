@@ -59,9 +59,9 @@ export default class DeploymentPhase {
     const playerGameBoard = document.getElementById('player-game-board');
     const playerShipArray = Ship.getPlayerShips();
 
-    btnRandomDeploy.addEventListener('click', () =>
-      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray)
-    );
+    btnRandomDeploy.addEventListener('click', () => {
+      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray);
+    });
   }
 
   // Deploy first ship from playerShipArray on click
@@ -74,6 +74,13 @@ export default class DeploymentPhase {
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
         const currentGridLength = Number(grid.id);
+
+        // Get first deployable ship, set its coordinates and set isDeployed=true
+        // deployableShip.coordinates = this.setShipCoordinates(
+        //   currentGridLength,
+        //   playerShipArray[0].length,
+        //   playerShipArray[0].rotation
+        // );
 
         // Check if ship is deployable to the current grid
         if (
@@ -96,9 +103,6 @@ export default class DeploymentPhase {
           'black',
           'white'
         );
-
-        // Shift first ship element on successful deployment
-        playerShipArray.shift();
 
         // Set ship img/text
         if (playerShipArray[0]) this.setShipInfo(playerShipArray[0].shipType);

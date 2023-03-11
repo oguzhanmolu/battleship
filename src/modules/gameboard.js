@@ -1,6 +1,5 @@
 import Ship from './ship';
 import DeploymentPhase from './deploymentPhase';
-const computerShipArray = Ship.createShipArray();
 
 export default class GameBoard {
   // Create 10x10 game board and append on parent
@@ -16,33 +15,39 @@ export default class GameBoard {
     }
   }
 
-  // Deploy computer's ships
+  // Deploy ships randomly, then set coordinates/isDeployed values accordingly
   static deployShipsRandomly(parent, shipArray) {
-    // Deploy  computer ships randomly
-    while (shipArray.length > 0) {
-      let randomIndex = Math.floor(Math.random() * 101);
-      let randomRotation =
-        Math.floor(Math.random() * 2) === 0 ? 'vertical' : 'horizontal';
+    shipArray.forEach((ship) => {
+      while (ship.isDeployed === false) {
+        let randomIndex = Math.floor(Math.random() * 101);
+        let randomRotation =
+          Math.floor(Math.random() * 2) === 0 ? 'vertical' : 'horizontal';
 
-      if (
-        GameBoard.isShipDeployable(
-          parent,
-          randomIndex,
-          shipArray[0].length,
-          randomRotation
-        )
-      ) {
-        DeploymentPhase.setGridColor(
-          parent,
-          randomIndex,
-          shipArray[0].length,
-          randomRotation,
-          'black',
-          'white'
-        );
-        shipArray.shift();
+        if (
+          GameBoard.isShipDeployable(
+            parent,
+            randomIndex,
+            ship.length,
+            randomRotation
+          )
+        ) {
+          DeploymentPhase.setGridColor(
+            parent,
+            randomIndex,
+            ship.length,
+            randomRotation,
+            'black',
+            'white'
+          );
+          ship.isDeployed = true;
+          ship.coordinates = Ship.setShipCoordinates(
+            randomIndex,
+            ship.length,
+            randomRotation
+          );
+        }
       }
-    }
+    });
   }
 
   // Returns true if ship is deployable to the current grid
@@ -90,6 +95,7 @@ export default class GameBoard {
     const playerGameBoard = document.getElementById('player-game-board');
     const computerMain = document.getElementById('computer-gameboard-main');
     const computerGameBoard = document.getElementById('computer-game-board');
+    const computerShipArray = Ship.getComputerShips();
 
     // Highlight deployed grids
     for (let i = 0; i < 100; i++) {
@@ -109,5 +115,7 @@ export default class GameBoard {
 
     // Deploy computer ships randomly
     GameBoard.deployShipsRandomly(computerGameBoard, computerShipArray);
+    console.log(Ship.getPlayerShips());
+    console.log(Ship.getComputerShips());
   }
 }

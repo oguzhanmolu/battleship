@@ -11,14 +11,4 @@ export default class PlayPhase {
       computerGameBoard.childNodes[i].textContent = '';
     }
   }
-  // Get player's ship coordinates
-  static getPlayerCoordinates() {
-    const gridAll = document.querySelectorAll('.grid');
-    let shipCoordinates = [];
-
-    gridAll.forEach((grid) => {
-      if (grid.style.backgroundColor === 'black') shipCoordinates.push(grid.id);
-    });
-    return shipCoordinates;
-  }
 }

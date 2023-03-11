@@ -3,6 +3,8 @@ import GameBoard from './modules/gameboard';
 import PlayPhase from './modules/playPhase';
 import Ship from './modules/ship';
 Ship.setPlayerShips();
+Ship.setComputerShips();
+
 DeploymentPhase.createPlayerGameBoard();
 DeploymentPhase.deployPlayerShipsRandomly();
 DeploymentPhase.switchShipRotation();

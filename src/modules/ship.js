@@ -5,7 +5,7 @@ export default class Ship {
     this.health = length;
     this.rotation = 'vertical';
     this.isDeployed = false;
-    this.isSink = false;
+    this.isSunk = false;
     this.coordinates = [];
     this.playerShips = [];
     this.computerShips = [];
@@ -25,5 +25,22 @@ export default class Ship {
   }
   static getPlayerShips() {
     return this.playerShips;
+  }
+  static setComputerShips() {
+    return (this.computerShips = this.createShipArray());
+  }
+  static getComputerShips() {
+    return this.computerShips;
+  }
+  static setShipCoordinates(currentGrid, shipLength, rotation) {
+    let arr = [currentGrid];
+    for (let i = 1; i < shipLength; i++) {
+      let nextGrid;
+      rotation === 'horizontal'
+        ? (nextGrid = currentGrid + i)
+        : (nextGrid = currentGrid + i * 10);
+      arr.push(nextGrid);
+    }
+    return arr;
   }
 }
