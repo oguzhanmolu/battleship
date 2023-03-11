@@ -1,6 +1,5 @@
 import GameBoard from './gameboard';
 import Ship from './ship';
-const playerShipArray = Ship.createShipArray();
 
 export default class DeploymentPhase {
   // Create 10x10 game board
@@ -45,6 +44,7 @@ export default class DeploymentPhase {
   // Switch ship rotation with 'Rotate Ship' click
   static switchShipRotation() {
     const btnRotate = document.querySelector('.rotate-button');
+    const playerShipArray = Ship.getPlayerShips();
     btnRotate.addEventListener('click', () => {
       playerShipArray.map((ship) =>
         ship.rotation === 'vertical'
@@ -57,6 +57,7 @@ export default class DeploymentPhase {
   static deployPlayerShipsRandomly() {
     const btnRandomDeploy = document.querySelector('.random-deploy-button');
     const playerGameBoard = document.getElementById('player-game-board');
+    const playerShipArray = Ship.getPlayerShips();
 
     btnRandomDeploy.addEventListener('click', () =>
       GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray)
@@ -68,6 +69,7 @@ export default class DeploymentPhase {
   static deployShip() {
     const gridAll = document.querySelectorAll('.grid');
     const playerGameBoard = document.getElementById('player-game-board');
+    const playerShipArray = Ship.getPlayerShips();
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
@@ -108,6 +110,7 @@ export default class DeploymentPhase {
   static gridHoverEffects() {
     const gridAll = document.querySelectorAll('.grid');
     const playerGameBoard = document.getElementById('player-game-board');
+    const playerShipArray = Ship.getPlayerShips();
 
     // Highlight current grid on 'mouseover'
     gridAll.forEach((grid) => {
@@ -165,6 +168,7 @@ export default class DeploymentPhase {
   static endDeploymentPhase() {
     const gridAll = document.querySelectorAll('.grid');
     const btnRandomDeploy = document.querySelector('.random-deploy-button');
+    const playerShipArray = Ship.getPlayerShips();
 
     btnRandomDeploy.addEventListener('click', () =>
       GameBoard.changeToPlayPhase()
