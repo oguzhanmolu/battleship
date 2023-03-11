@@ -114,6 +114,7 @@ main,
   cursor: pointer;
 }
 .button:hover {
+  color: black;
   background-color: gray;
 }
 .game-board {
