@@ -10,6 +10,7 @@ export default class GameBoard {
       grid.classList.add('grid');
       grid.setAttribute('id', `${i}`);
       grid.textContent = i;
+      grid.style.backgroundColor = 'white';
 
       parent.appendChild(grid);
     }
@@ -45,6 +46,7 @@ export default class GameBoard {
     return true;
   }
 
+  // Update ship count
   static updateShipCount() {
     const textPlayerShipCount = document.querySelector(
       '.player-remaining-ships'
@@ -58,11 +60,20 @@ export default class GameBoard {
     textComputerShipCount.textContent = `${computerRemainingShips} SHIPS LEFT`;
   }
 
+  // Highlight clicked grids in PlayPhase
   static highlightHitGrid(parent, currentGridIndex, isHit) {
+    const clickedGrid = parent.childNodes[currentGridIndex];
+
+    // Return and don't change same grid color more than once
+    if (clickedGrid.style.backgroundColor !== 'white') return;
+
+    // When there is a hit
     if (isHit === true) {
-      parent.childNodes[currentGridIndex].style.background = 'red';
-      parent.childNodes[currentGridIndex].textContent = 'x';
-    } else parent.childNodes[currentGridIndex].style.background = '#006994';
+      clickedGrid.style.backgroundColor = 'red';
+      clickedGrid.textContent = 'x';
+    }
+    // When there is not
+    else clickedGrid.style.backgroundColor = '#2B65EC';
   }
 
   // Set grid colors from current ship coordinates
@@ -102,14 +113,6 @@ export default class GameBoard {
             randomRotation
           )
         ) {
-          this.setGridColor(
-            parent,
-            randomIndex,
-            ship.length,
-            randomRotation,
-            'black',
-            'white'
-          );
           ship.isDeployed = true;
           ship.coordinates = Ship.setShipCoordinates(
             randomIndex,
@@ -130,6 +133,9 @@ export default class GameBoard {
     const playerMain = document.getElementById('player-gameboard-main');
     const playerGameBoard = document.getElementById('player-game-board');
     const computerMain = document.getElementById('computer-gameboard-main');
+    const textPlayerShipCount = document.querySelector(
+      '.player-remaining-ships'
+    );
 
     // Highlight deployed grids
     for (let i = 0; i < 100; i++) {
@@ -142,6 +148,7 @@ export default class GameBoard {
     playerMain.style.transform = 'translate(-100%)';
     playerMain.style.animation = 'slide-left 1s';
     computerMain.style.display = 'flex';
+    textPlayerShipCount.style.display = 'block';
     computerMain.style.flexDirection = 'column';
     modalShipInfoGroup.style.display = 'none';
     btnRotate.style.display = 'none';
