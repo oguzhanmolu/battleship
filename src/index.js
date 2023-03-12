@@ -13,3 +13,4 @@ DeploymentPhase.endDeploymentPhase();
 
 PlayPhase.createComputerGameBoard();
 PlayPhase.deployComputerShips();
+PlayPhase.isShipHit();

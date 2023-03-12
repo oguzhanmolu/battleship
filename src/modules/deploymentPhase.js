@@ -42,7 +42,7 @@ export default class DeploymentPhase {
     // Highlight current grid on 'mouseover'
     gridAll.forEach((grid) => {
       grid.addEventListener('mouseover', () => {
-        const currentGridLength = Number(grid.id);
+        const currentGridIndex = Number(grid.id);
         const deployableShip = Ship.getFirstDeployablePlayerShip();
 
         // Check if ship is deployable,
@@ -50,7 +50,7 @@ export default class DeploymentPhase {
           deployableShip &&
           GameBoard.isShipDeployable(
             playerGameBoard,
-            currentGridLength,
+            currentGridIndex,
             deployableShip.length,
             deployableShip.rotation
           )
@@ -58,7 +58,7 @@ export default class DeploymentPhase {
           // Set color
           GameBoard.setGridColor(
             playerGameBoard,
-            currentGridLength,
+            currentGridIndex,
             deployableShip.length,
             deployableShip.rotation,
             `gray`
@@ -69,7 +69,7 @@ export default class DeploymentPhase {
     // Cancel hover effect on 'mouseout'
     gridAll.forEach((grid) =>
       grid.addEventListener('mouseout', () => {
-        const currentGridLength = Number(grid.id);
+        const currentGridIndex = Number(grid.id);
         const deployableShip = Ship.getFirstDeployablePlayerShip();
 
         // Check if ship is deployable,
@@ -77,7 +77,7 @@ export default class DeploymentPhase {
           deployableShip &&
           GameBoard.isShipDeployable(
             playerGameBoard,
-            currentGridLength,
+            currentGridIndex,
             deployableShip.length,
             deployableShip.rotation
           )
@@ -85,7 +85,7 @@ export default class DeploymentPhase {
           // Set color
           GameBoard.setGridColor(
             playerGameBoard,
-            currentGridLength,
+            currentGridIndex,
             deployableShip.length,
             deployableShip.rotation,
             'white'
@@ -101,7 +101,7 @@ export default class DeploymentPhase {
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
-        const currentGridLength = Number(grid.id);
+        const currentGridIndex = Number(grid.id);
         const deployableShip = Ship.getFirstDeployablePlayerShip();
 
         // Check if ship exists in same grids before deploying
@@ -109,7 +109,7 @@ export default class DeploymentPhase {
           deployableShip &&
           GameBoard.isShipDeployable(
             playerGameBoard,
-            currentGridLength,
+            currentGridIndex,
             deployableShip.length,
             deployableShip.rotation
           )
@@ -117,7 +117,7 @@ export default class DeploymentPhase {
           // Set color
           GameBoard.setGridColor(
             playerGameBoard,
-            currentGridLength,
+            currentGridIndex,
             deployableShip.length,
             deployableShip.rotation,
             'black',
@@ -127,7 +127,7 @@ export default class DeploymentPhase {
           // Set ship isDeployed/coordinates values on successful deployment
           deployableShip.isDeployed = true;
           deployableShip.coordinates = Ship.setShipCoordinates(
-            currentGridLength,
+            currentGridIndex,
             deployableShip.length,
             deployableShip.rotation
           );

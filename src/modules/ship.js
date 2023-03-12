@@ -10,6 +10,7 @@ export default class Ship {
     this.playerShips = [];
     this.computerShips = [];
   }
+
   // Create ship array
   static createShipArray() {
     return [
@@ -54,13 +55,13 @@ export default class Ship {
     });
   }
 
-  static setShipCoordinates(currentGrid, shipLength, rotation) {
-    let arr = [currentGrid];
+  static setShipCoordinates(currentGridIndex, shipLength, rotation) {
+    let arr = [currentGridIndex];
     for (let i = 1; i < shipLength; i++) {
       let nextGrid;
       rotation === 'horizontal'
-        ? (nextGrid = currentGrid + i)
-        : (nextGrid = currentGrid + i * 10);
+        ? (nextGrid = currentGridIndex + i)
+        : (nextGrid = currentGridIndex + i * 10);
       arr.push(nextGrid);
     }
     return arr;

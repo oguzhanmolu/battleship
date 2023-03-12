@@ -16,9 +16,13 @@ export default class GameBoard {
   }
 
   // Returns true if ship is deployable to the current grid
-  static isShipDeployable(parent, currentGrid, shipLength, rotation) {
-    const shipFurthestLocation = currentGrid + shipLength - 1;
-    const indexArr = Ship.setShipCoordinates(currentGrid, shipLength, rotation);
+  static isShipDeployable(parent, currentGridIndex, shipLength, rotation) {
+    const shipFurthestLocation = currentGridIndex + shipLength - 1;
+    const indexArr = Ship.setShipCoordinates(
+      currentGridIndex,
+      shipLength,
+      rotation
+    );
 
     // Returns false if ship is not deployable to current grid. Or else, returns true as default
     if (
@@ -28,12 +32,12 @@ export default class GameBoard {
           parent.childNodes[index].style.backgroundColor === 'black'
       ) ||
       (rotation === 'horizontal' &&
-        currentGrid < 10 &&
-        currentGrid.toString().length !==
+        currentGridIndex < 10 &&
+        currentGridIndex.toString().length !==
           shipFurthestLocation.toString().length) ||
       (rotation === 'horizontal' &&
-        currentGrid > 9 &&
-        currentGrid.toString().split('')[0] !==
+        currentGridIndex > 9 &&
+        currentGridIndex.toString().split('')[0] !==
           shipFurthestLocation.toString().split('')[0])
     )
       return false;
@@ -41,17 +45,37 @@ export default class GameBoard {
     return true;
   }
 
-  // Change grid colors from ship coordinates
+  static updateShipCount() {
+    const textPlayerShipCount = document.querySelector(
+      '.player-remaining-ships'
+    );
+    const textComputerShipCount = document.querySelector(
+      '.computer-remaining-ships'
+    );
+    const playerRemainingShips = Ship.getPlayerShips().length;
+    const computerRemainingShips = Ship.getComputerShips().length;
+    textPlayerShipCount.textContent = `${playerRemainingShips} SHIPS LEFT`;
+    textComputerShipCount.textContent = `${computerRemainingShips} SHIPS LEFT`;
+  }
+
+  static highlightHitGrid(parent, currentGridIndex, isHit) {
+    if (isHit === true) {
+      parent.childNodes[currentGridIndex].style.background = 'red';
+      parent.childNodes[currentGridIndex].textContent = 'x';
+    } else parent.childNodes[currentGridIndex].style.background = '#006994';
+  }
+
+  // Set grid colors from current ship coordinates
   static setGridColor(
     parent,
-    currentGrid,
+    currentGridIndex,
     shipLength,
     rotation,
     backgroundColor,
     textColor
   ) {
     const currentShip = Ship.setShipCoordinates(
-      currentGrid,
+      currentGridIndex,
       shipLength,
       rotation
     );
