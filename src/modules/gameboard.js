@@ -46,36 +46,6 @@ export default class GameBoard {
     return true;
   }
 
-  // Update ship count
-  static updateShipCount() {
-    const textPlayerShipCount = document.querySelector(
-      '.player-remaining-ships'
-    );
-    const textComputerShipCount = document.querySelector(
-      '.computer-remaining-ships'
-    );
-    const playerRemainingShips = Ship.getPlayerShips().length;
-    const computerRemainingShips = Ship.getComputerShips().length;
-    textPlayerShipCount.textContent = `${playerRemainingShips} SHIPS LEFT`;
-    textComputerShipCount.textContent = `${computerRemainingShips} SHIPS LEFT`;
-  }
-
-  // Highlight clicked grids in PlayPhase
-  static highlightHitGrid(parent, currentGridIndex, isHit) {
-    const clickedGrid = parent.childNodes[currentGridIndex];
-
-    // Return and don't change same grid color more than once
-    if (clickedGrid.style.backgroundColor !== 'white') return;
-
-    // When there is a hit
-    if (isHit === true) {
-      clickedGrid.style.backgroundColor = 'red';
-      clickedGrid.textContent = 'x';
-    }
-    // When there is not
-    else clickedGrid.style.backgroundColor = '#2B65EC';
-  }
-
   // Set grid colors from current ship coordinates
   static setGridColor(
     parent,

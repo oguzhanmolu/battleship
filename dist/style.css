@@ -61,6 +61,18 @@ main {
 .ship-img {
   height: 100px;
 }
+
+#hit-info-text {
+  display: none;
+  position: fixed;
+  font-size: 5rem;
+  margin-top: 50px;
+  color: red;
+  transition: all ease-in-out 1s;
+  animation: appear 1s;
+  animation: enlarge 1s;
+}
+
 /*  */
 
 /* Gameboard */

@@ -32,8 +32,11 @@ export default class PlayPhase {
           (ship) => ship.coordinates
         );
 
+        // Return on multiple click on same grid
+        if (grid.style.backgroundColor !== 'white') return;
+
         // Update remaining ship text with each click
-        GameBoard.updateShipCount();
+        this.updateShipCount();
         // If there is a hit, mutate hit coordinate from array and 'ship.health--'
         if (computerShipCoordinates.includes(targetIndex)) {
           const hitShip = computerShipArray.find((ship) =>
@@ -48,12 +51,47 @@ export default class PlayPhase {
           console.log(hitShip);
 
           // Insert CSS magic here
-          GameBoard.highlightHitGrid(computerGameBoard, targetIndex, true);
+          this.highlightHitGrid(computerGameBoard, targetIndex, true);
+          this.updateHitInfoText('HIT!', 'red');
         } else {
           // Insert CSS magic here
-          GameBoard.highlightHitGrid(computerGameBoard, targetIndex, false);
+          this.highlightHitGrid(computerGameBoard, targetIndex, false);
+          this.updateHitInfoText('MISS!', '#2B65EC');
         }
       })
     );
+  }
+  // Update ship count
+  static updateShipCount() {
+    const textPlayerShipCount = document.querySelector(
+      '.player-remaining-ships'
+    );
+    const textComputerShipCount = document.querySelector(
+      '.computer-remaining-ships'
+    );
+    const playerRemainingShips = Ship.getPlayerShips().length;
+    const computerRemainingShips = Ship.getComputerShips().length;
+    textPlayerShipCount.textContent = `${playerRemainingShips} SHIPS LEFT`;
+    textComputerShipCount.textContent = `${computerRemainingShips} SHIPS LEFT`;
+  }
+
+  // Highlight clicked grids in PlayPhase
+  static highlightHitGrid(parent, currentGridIndex, isHit) {
+    const clickedGrid = parent.childNodes[currentGridIndex];
+
+    // When there is a hit
+    if (isHit === true) {
+      clickedGrid.style.backgroundColor = 'red';
+      clickedGrid.textContent = 'x';
+    }
+    // When there is not
+    else clickedGrid.style.backgroundColor = '#2B65EC';
+  }
+  //
+  static updateHitInfoText(text, color) {
+    const hitInfoText = document.getElementById('hit-info-text');
+    hitInfoText.style.display = 'block';
+    hitInfoText.textContent = text;
+    hitInfoText.style.color = color;
   }
 }
