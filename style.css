@@ -68,9 +68,7 @@ main {
   font-size: 5rem;
   margin-top: 50px;
   color: red;
-  transition: all ease-in-out 1s;
-  animation: appear 1s;
-  animation: enlarge 1s;
+  transition: all ease-in-out 0.5s;
 }
 
 /*  */
