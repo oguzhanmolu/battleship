@@ -91,15 +91,15 @@ export default class GameBoard {
           );
 
           // If its player ships, show ships as well
-          if (isPlayer === true)
-            this.setGridColor(
-              parent,
-              randomIndex,
-              ship.length,
-              randomRotation,
-              'black',
-              'white'
-            );
+          // if (isPlayer === true)
+          this.setGridColor(
+            parent,
+            randomIndex,
+            ship.length,
+            randomRotation,
+            'black',
+            'white'
+          );
         }
       }
     });
