@@ -36,6 +36,7 @@ main {
   font-size: 4rem;
   color: black;
 }
+/*  */
 
 /* MODAL */
 #modal {
@@ -46,8 +47,6 @@ main {
   transform: translate(-50%, -50%);
   text-align: center;
 }
-
-/* Modal texts */
 #modal-main-text > *,
 #modal-ship-info > * {
   display: block;
@@ -59,29 +58,17 @@ main {
 #modal-text {
   font-size: 2.5rem;
 }
-.gameboard-text,
-.gameboard-fixed-text {
-  font-size: 2rem;
-}
-
-.gameboard-fixed-text {
-  position: fixed;
-  transform: translate(-100%);
-
-  writing-mode: vertical-lr;
-}
 .ship-img {
   height: 100px;
 }
+/*  */
 
 /* Gameboard */
-
 .gameboard-title {
   display: none;
   font-size: 4rem;
   margin-bottom: 25px;
 }
-
 main,
 #modal,
 #player-gameboard-main {
@@ -99,10 +86,29 @@ main,
   animation: slide-right 1s;
   transform: translate(100%);
 }
+.gameboard-text,
+.gameboard-fixed-text {
+  font-size: 2rem;
+}
+.gameboard-fixed-text {
+  position: fixed;
+  transform: translate(-100%);
+
+  writing-mode: vertical-lr;
+}
+.player-remaining-ships {
+  display: none;
+}
 .gameboard-group {
   display: flex;
   align-items: center;
 }
+.game-board {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+/*  */
+
 .button {
   background-color: black;
   color: white;
@@ -117,10 +123,7 @@ main,
   color: black;
   background-color: gray;
 }
-.game-board {
-  display: grid;
-  grid-template-columns: repeat(10, 1fr);
-}
+
 .grid {
   height: 35px;
   width: 35px;
