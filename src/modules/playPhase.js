@@ -17,7 +17,7 @@ export default class PlayPhase {
   static deployComputerShips() {
     const computerGameBoard = document.getElementById('computer-game-board');
     const computerShipArray = Ship.getComputerShips();
-    GameBoard.deployShipsRandomly(computerGameBoard, computerShipArray);
+    GameBoard.deployShipsRandomly(computerGameBoard, computerShipArray, false);
   }
 
   // Check if computer ship was hit

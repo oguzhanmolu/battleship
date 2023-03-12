@@ -30,7 +30,7 @@ export default class DeploymentPhase {
     const playerShipArray = Ship.getPlayerShips();
 
     btnRandomDeploy.addEventListener('click', () => {
-      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray);
+      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray, true);
     });
   }
 

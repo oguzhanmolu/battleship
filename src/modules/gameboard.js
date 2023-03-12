@@ -68,7 +68,7 @@ export default class GameBoard {
   }
 
   // Deploy ships randomly
-  static deployShipsRandomly(parent, shipArray) {
+  static deployShipsRandomly(parent, shipArray, isPlayer) {
     shipArray.forEach((ship) => {
       while (ship.isDeployed === false) {
         let randomIndex = Math.floor(Math.random() * 101);
@@ -89,6 +89,17 @@ export default class GameBoard {
             ship.length,
             randomRotation
           );
+
+          // If its player ships, show ships as well
+          if (isPlayer === true)
+            this.setGridColor(
+              parent,
+              randomIndex,
+              ship.length,
+              randomRotation,
+              'black',
+              'white'
+            );
         }
       }
     });
