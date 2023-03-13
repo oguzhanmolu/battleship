@@ -17,21 +17,24 @@ export default class GameBoard {
   }
 
   // Returns true if ship is deployable to the current grid
-  static isShipDeployable(parent, currentGridIndex, shipLength, rotation) {
+  static isShipDeployable(shipArray, currentGridIndex, shipLength, rotation) {
     const shipFurthestLocation = currentGridIndex + shipLength - 1;
-    const indexArr = Ship.setShipCoordinates(
+    const currentShipCoordinates = Ship.setShipCoordinates(
       currentGridIndex,
       shipLength,
       rotation
     );
+    const deployedShipCoordinates = shipArray.flatMap(
+      (ship) => ship.coordinates
+    );
 
-    // Returns false if ship is not deployable to current grid. Or else, returns true as default
+    // If there is a ship already in the same grids player is trying to deploy,
+    // or grid index is not legit like >99
     if (
-      indexArr.some(
-        (index) =>
-          index > 99 ||
-          parent.childNodes[index].style.backgroundColor === 'black'
+      currentShipCoordinates.some(
+        (index) => index > 99 || deployedShipCoordinates.includes(index)
       ) ||
+      // If ship is not in same row horizontally
       (rotation === 'horizontal' &&
         currentGridIndex < 10 &&
         currentGridIndex.toString().length !==
@@ -77,7 +80,7 @@ export default class GameBoard {
 
         if (
           GameBoard.isShipDeployable(
-            parent,
+            shipArray,
             randomIndex,
             ship.length,
             randomRotation
@@ -91,15 +94,15 @@ export default class GameBoard {
           );
 
           // If its player ships, show ships as well
-          // if (isPlayer === true)
-          this.setGridColor(
-            parent,
-            randomIndex,
-            ship.length,
-            randomRotation,
-            'black',
-            'white'
-          );
+          if (isPlayer === true)
+            this.setGridColor(
+              parent,
+              randomIndex,
+              ship.length,
+              randomRotation,
+              'black',
+              'white'
+            );
         }
       }
     });

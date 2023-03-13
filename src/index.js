@@ -1,6 +1,7 @@
 import DeploymentPhase from './modules/deploymentPhase';
 import PlayPhase from './modules/playPhase';
 import Ship from './modules/ship';
+
 Ship.setPlayerShips();
 Ship.setComputerShips();
 Ship.switchShipRotation();
@@ -13,4 +14,4 @@ DeploymentPhase.endDeploymentPhase();
 
 PlayPhase.createComputerGameBoard();
 PlayPhase.deployComputerShips();
-PlayPhase.isShipHit();
+PlayPhase.bombardGameFieldOnClick();

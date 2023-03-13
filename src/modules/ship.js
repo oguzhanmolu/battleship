@@ -9,6 +9,7 @@ export default class Ship {
     this.coordinates = [];
     this.playerShips = [];
     this.computerShips = [];
+    this.isGameFinished = false;
   }
 
   // Create ship array

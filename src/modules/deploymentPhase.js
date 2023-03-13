@@ -30,7 +30,7 @@ export default class DeploymentPhase {
     const playerShipArray = Ship.getPlayerShips();
 
     btnRandomDeploy.addEventListener('click', () => {
-      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray);
+      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray, true);
     });
   }
 
@@ -44,12 +44,13 @@ export default class DeploymentPhase {
       grid.addEventListener('mouseover', () => {
         const currentGridIndex = Number(grid.id);
         const deployableShip = Ship.getFirstDeployablePlayerShip();
+        const playerShipArray = Ship.getPlayerShips();
 
         // Check if ship is deployable,
         if (
           deployableShip &&
           GameBoard.isShipDeployable(
-            playerGameBoard,
+            playerShipArray,
             currentGridIndex,
             deployableShip.length,
             deployableShip.rotation
@@ -71,12 +72,13 @@ export default class DeploymentPhase {
       grid.addEventListener('mouseout', () => {
         const currentGridIndex = Number(grid.id);
         const deployableShip = Ship.getFirstDeployablePlayerShip();
+        const playerShipArray = Ship.getPlayerShips();
 
         // Check if ship is deployable,
         if (
           deployableShip &&
           GameBoard.isShipDeployable(
-            playerGameBoard,
+            playerShipArray,
             currentGridIndex,
             deployableShip.length,
             deployableShip.rotation
@@ -98,6 +100,7 @@ export default class DeploymentPhase {
   static deployShip() {
     const gridAll = document.querySelectorAll('.grid');
     const playerGameBoard = document.getElementById('player-game-board');
+    const playerShipArray = Ship.getPlayerShips();
 
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
@@ -108,7 +111,7 @@ export default class DeploymentPhase {
         if (
           deployableShip &&
           GameBoard.isShipDeployable(
-            playerGameBoard,
+            playerShipArray,
             currentGridIndex,
             deployableShip.length,
             deployableShip.rotation
