@@ -20,7 +20,7 @@ export default class DeploymentPhase {
     shipInfoText.textContent =
       deployableShip.shipType[0].toUpperCase() +
       deployableShip.shipType.slice(1);
-    shipImg.src = `img/${deployableShip.shipType}.png`;
+    shipImg.src = `dist/img/${deployableShip.shipType}.png`;
     shipImg.alt = `${deployableShip.shipType} image`;
   }
 
