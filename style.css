@@ -66,8 +66,6 @@ main {
   display: none;
   position: fixed;
   font-size: 5rem;
-  margin-top: 50px;
-  color: red;
   transition: all ease-in-out 0.5s;
 }
 
