@@ -88,6 +88,7 @@ export default class PlayPhase {
         const playerShipCoordinates = playerShipArray.flatMap(
           (ship) => ship.coordinates
         );
+
         const computerTargetIndex =
           gameBoardGridIndexes[
             Math.floor(Math.random() * gameBoardGridIndexes.length)
