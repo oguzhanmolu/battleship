@@ -9,7 +9,6 @@ export default class Ship {
     this.coordinates = [];
     this.playerShips = [];
     this.computerShips = [];
-    this.isGameFinished = false;
   }
 
   // Create ship array
@@ -56,6 +55,7 @@ export default class Ship {
     });
   }
 
+  // Set ship coordinates from current grid/length/rotation values
   static setShipCoordinates(currentGridIndex, shipLength, rotation) {
     let arr = [currentGridIndex];
     for (let i = 1; i < shipLength; i++) {

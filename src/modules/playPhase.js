@@ -18,23 +18,26 @@ export default class PlayPhase {
   static deployComputerShips() {
     const computerGameBoard = document.getElementById('computer-game-board');
     const computerShipArray = Ship.getComputerShips();
+
     GameBoard.deployShipsRandomly(computerGameBoard, computerShipArray, false);
   }
 
+  // Check if clicked grid is ship or not.
   static checkIsHit(target, shipArray, shipCoordinates, gameBoard, isPlayer) {
-    // If there is a hit, mutate hit coordinate from array and 'ship.health--'
+    // If there is a hit, get hit ship variable.
     if (shipCoordinates.includes(target)) {
       const hitShip = shipArray.find((ship) =>
         ship.coordinates.includes(target)
       );
 
-      // Mutate hit coordinates from ship.coordinates
+      // Mutate hit coordinates from hitShip.coordinates
       hitShip.coordinates.splice(hitShip.coordinates.indexOf(target), 1);
 
+      // ship.health--/set isSunk
       hitShip.health--;
       if (hitShip.health === 0) hitShip.isSunk = true;
 
-      // Highlight grid/Update hit info text
+      // Highlight grid/Update hit info text (text is for player only)
       this.highlightHitGrid(gameBoard, target, true);
       if (isPlayer) this.updateAnnouncementText('HIT!', 'red');
     }
@@ -46,21 +49,24 @@ export default class PlayPhase {
     }
   }
 
-  // Bombard game field after click on game board
+  // Bombard game fields after clicking on the game board
   static bombardGameFieldOnClick() {
     const computerGameBoard = document.getElementById('computer-game-board');
     const playerGameBoard = document.getElementById('player-game-board');
-    let coordinatesArr = [];
-    for (let i = 0; i < 100; i++) coordinatesArr.push(i);
+    let gameBoardGridIndexes = [];
+    for (let i = 0; i < 100; i++) gameBoardGridIndexes.push(i);
 
     computerGameBoard.childNodes.forEach((grid) =>
       grid.addEventListener('click', (e) => {
-        //  Multiple clicks on the same grid or game is already ended => Return
-        if (grid.style.backgroundColor !== 'white' || Ship.isGameFinished)
+        // If there is any multiple clicks on the same grid, or if game has already ended => Return
+        if (
+          grid.style.backgroundColor !== 'white' ||
+          conclusionPhase.isGameFinished
+        )
           return;
 
-        //*Player target
-        const playerTarget = Number(e.target.id);
+        // Handle player targets
+        const playerTargetIndex = Number(e.target.id);
         const computerShipArray = Ship.getComputerShips();
         const computerShipCoordinates = computerShipArray.flatMap(
           (ship) => ship.coordinates
@@ -68,32 +74,41 @@ export default class PlayPhase {
 
         // If any shit was hit, change grid color, ship.health-- and mutate if ship.health===0
         this.checkIsHit(
-          playerTarget,
+          playerTargetIndex,
           computerShipArray,
           computerShipCoordinates,
           computerGameBoard,
           true
         );
 
-        //*Computer target
+        //////////////////////////////////////////////////////////////////////////////////////
+
+        // Handle computer targets
         const playerShipArray = Ship.getPlayerShips();
         const playerShipCoordinates = playerShipArray.flatMap(
           (ship) => ship.coordinates
         );
-        const randomComputerTarget =
-          coordinatesArr[Math.floor(Math.random() * coordinatesArr.length)];
-        coordinatesArr.splice(coordinatesArr.indexOf(randomComputerTarget), 1);
+        const computerTargetIndex =
+          gameBoardGridIndexes[
+            Math.floor(Math.random() * gameBoardGridIndexes.length)
+          ];
+        gameBoardGridIndexes.splice(
+          gameBoardGridIndexes.indexOf(computerTargetIndex),
+          1
+        );
 
         // If any shit was hit, change grid color, ship.health-- and mutate if ship.health===0
         this.checkIsHit(
-          randomComputerTarget,
+          computerTargetIndex,
           playerShipArray,
           playerShipCoordinates,
           playerGameBoard,
           false
         );
 
-        // Update remaining ship text with each click
+        ///////////////////////
+
+        // Update remaining ship text after each bombardment
         this.updateShipCount();
 
         // If game is finished  set =>Ship.isGameFinished = true;

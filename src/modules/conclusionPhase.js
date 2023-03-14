@@ -1,6 +1,11 @@
 import PlayPhase from './playPhase';
 import Ship from './ship';
 export default class conclusionPhase {
+  constructor() {
+    this.isGameFinished = false;
+  }
+
+  // Return true if either one of the players has no ship left on game board
   static checkIsGameFinished() {
     const playerRemainingShips = Ship.getPlayerShips().filter(
       (ship) => ship.isSunk === false
@@ -11,8 +16,9 @@ export default class conclusionPhase {
 
     // If player is the winner
     if (computerRemainingShips === 0) {
+      // Announce player as the winner
       PlayPhase.updateAnnouncementText('PLAYER HAS WON!', 'black');
-      Ship.isGameFinished = true;
+      this.isGameFinished = true;
     }
 
     // If computer is the winner
@@ -22,7 +28,8 @@ export default class conclusionPhase {
       const computerShipCoordinates = computerShipArray.flatMap(
         (ship) => ship.coordinates
       );
-      //   Highlight computer ships
+
+      // Highlight computer ships
       computerShipCoordinates.forEach((coordinate) => {
         computerGameBoard.childNodes[coordinate].style.backgroundColor =
           'black';
@@ -30,7 +37,7 @@ export default class conclusionPhase {
         computerGameBoard.childNodes[coordinate].textContent = coordinate;
       });
       PlayPhase.updateAnnouncementText('COMPUTER HAS WON!', 'black');
-      Ship.isGameFinished = true;
+      this.isGameFinished = true;
     }
   }
 }

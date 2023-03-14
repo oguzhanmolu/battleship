@@ -10,7 +10,7 @@ export default class DeploymentPhase {
   }
 
   // Set next ship's text/img
-  static setShipInfo() {
+  static setNextShipInfo() {
     const deployableShip = Ship.getFirstDeployablePlayerShip();
     let shipInfoText = document.querySelector('.ship-info-text');
     let shipImg = document.querySelector('.ship-img');
@@ -24,6 +24,7 @@ export default class DeploymentPhase {
     shipImg.alt = `${deployableShip.shipType} image`;
   }
 
+  // Deploy undeployed player ships randomly, after random deploy button is clicked
   static deployPlayerShipsRandomly() {
     const btnRandomDeploy = document.querySelector('.random-deploy-button');
     const playerGameBoard = document.getElementById('player-game-board');
@@ -74,7 +75,7 @@ export default class DeploymentPhase {
         const deployableShip = Ship.getFirstDeployablePlayerShip();
         const playerShipArray = Ship.getPlayerShips();
 
-        // Check if ship is deployable,
+        // Check if ship is deployable (if there is a ship, don't set color)
         if (
           deployableShip &&
           GameBoard.isShipDeployable(
@@ -127,7 +128,7 @@ export default class DeploymentPhase {
             'white'
           );
 
-          // Set ship isDeployed/coordinates values on successful deployment
+          // Set ship isDeployed/coordinates on successful deployment
           deployableShip.isDeployed = true;
           deployableShip.coordinates = Ship.setShipCoordinates(
             currentGridIndex,
@@ -136,7 +137,7 @@ export default class DeploymentPhase {
           );
 
           // Set ship info/img
-          this.setShipInfo();
+          this.setNextShipInfo();
         }
       })
     );
@@ -147,10 +148,12 @@ export default class DeploymentPhase {
     const gridAll = document.querySelectorAll('.grid');
     const btnRandomDeploy = document.querySelector('.random-deploy-button');
 
+    // If random deploy button is clicked
     btnRandomDeploy.addEventListener('click', () =>
       GameBoard.changeToPlayPhase()
     );
 
+    // If all player ships are manually deployed
     gridAll.forEach((grid) =>
       grid.addEventListener('click', () => {
         if (!Ship.getFirstDeployablePlayerShip()) GameBoard.changeToPlayPhase();

@@ -1,8 +1,7 @@
 import Ship from './ship';
-import DeploymentPhase from './deploymentPhase';
 
 export default class GameBoard {
-  // Create 10x10 game board and append on parent
+  // Create a 10x10 grids and append on the parent
   static createGameBoard(parent) {
     for (let i = 0; i < 100; i++) {
       const grid = document.createElement('div');
@@ -28,8 +27,8 @@ export default class GameBoard {
       (ship) => ship.coordinates
     );
 
-    // If there is a ship already in the same grids player is trying to deploy,
-    // or grid index is not legit like >99
+    // If there is a ship already in the same grids,
+    // or grid index is not eligible (index is like >99)
     if (
       currentShipCoordinates.some(
         (index) => index > 99 || deployedShipCoordinates.includes(index)
@@ -46,6 +45,7 @@ export default class GameBoard {
     )
       return false;
 
+    // Returns true as default
     return true;
   }
 
