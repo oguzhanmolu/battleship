@@ -28,7 +28,7 @@ export default class DeploymentPhase {
   static deployPlayerShipsRandomly() {
     const btnRandomDeploy = document.querySelector('.random-deploy-button');
     const playerGameBoard = document.getElementById('player-game-board');
-    const playerShipArray = Ship.get + layerShips();
+    const playerShipArray = Ship.getPlayerShips();
 
     btnRandomDeploy.addEventListener('click', () => {
       GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray, true);
