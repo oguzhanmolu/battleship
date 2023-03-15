@@ -30,9 +30,9 @@ export default class DeploymentPhase {
     const playerGameBoard = document.getElementById('player-game-board');
     const playerShipArray = Ship.getPlayerShips();
 
-    btnRandomDeploy.addEventListener('click', () => {
-      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray, true);
-    });
+    btnRandomDeploy.addEventListener('click', () =>
+      GameBoard.deployShipsRandomly(playerGameBoard, playerShipArray, true)
+    );
   }
 
   //  Change grid colors on mouseover/mouseout
