@@ -24,7 +24,7 @@ export default class DeploymentPhase {
     shipImg.alt = `${deployableShip.shipType} image`;
   }
 
-  // Deploy undeployed player ships randomly, after random deploy button is clicked
+  // Deploy undeployed player ships randomly after random deploy button is clicked
   static deployPlayerShipsRandomly() {
     const btnRandomDeploy = document.querySelector('.random-deploy-button');
     const playerGameBoard = document.getElementById('player-game-board');
